@@ -5,7 +5,6 @@ Created on Sun Feb 21 14:04:41 2021
 @author: kathr
 """
 
-
 import os
 import mne
 import numpy as np

@@ -28,7 +28,6 @@ epochs_b.plot_psd(fmin = 2, fmax = 40, average = True)
 
 # Frequency plot for each condition
 
-
 f, ax = plt.subplots()
 psds1, freqs1 = mne.time_frequency.psd_multitaper(epochs_a['Coupled'], fmin=2, fmax=40)
 psds1 = 10. * np.log10(psds1)
@@ -49,8 +48,6 @@ psds_mean4 = psds4.mean(0).mean(0)
 psds5, freqs5 = mne.time_frequency.psd_multitaper(epochs_a['Control'], fmin=2, fmax=40)
 psds5 = 10. * np.log10(psds5)
 psds_mean5 = psds5.mean(0).mean(0)
-
-#psds_std = psds.mean(0).std(0)
 
 ax.plot(freqs1, psds_mean1, label = "Coupled")
 ax.plot(freqs2, psds_mean2, label = "Uncoupled")
@@ -84,8 +81,6 @@ psds5, freqs5 = mne.time_frequency.psd_multitaper(epochs_b['Control'], fmin=2, f
 psds5 = 10. * np.log10(psds5)
 psds_mean5 = psds5.mean(0).mean(0)
 
-#psds_std = psds.mean(0).std(0)
-
 ax.plot(freqs1, psds_mean1, label = "Coupled")
 ax.plot(freqs2, psds_mean2, label = "Uncoupled")
 ax.plot(freqs3, psds_mean3, label = "Leader")
@@ -96,9 +91,4 @@ ax.set(title='Multitaper PSD', xlabel='Frequency (Hz)',
        ylabel='Power Spectral Density (dB)')
 plt.show()
 
-
-
-#epochs_a.crop(tmin = 1, tmax = 2)
-
-#epochs_a.plot()
 

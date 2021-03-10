@@ -137,8 +137,8 @@ epochs_b_cleaned.set_eeg_reference('average')
 epochs_a_cleaned.plot(n_channels = 10, n_epochs = 1)
 epochs_b_cleaned.plot(n_channels = 10, n_epochs = 1)
 
-epochs_a_cleaned.save('epochs_a_preprocessed-epo.fif', overwrite = True)
-epochs_b_cleaned.save('epochs_b_preprocessed-epo.fif', overwrite = True)
+#epochs_a_cleaned.save('epochs_a_preprocessed-epo.fif', overwrite = True)
+#epochs_b_cleaned.save('epochs_b_preprocessed-epo.fif', overwrite = True)
 
 
 

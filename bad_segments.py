@@ -94,6 +94,8 @@ epochs_a_segmented.plot(n_epochs = 25, n_channels = 10)
 epochs_a_seg_re = epochs_a_segmented.copy().resample(256, npad = 'auto')
 epochs_b_seg_re = epochs_b_segmented.copy().resample(256, npad = 'auto')
 
+epochs_a_seg_re.plot(n_epochs = 25, n_channels = 10)
+epochs_b_seg_re.plot(n_epochs = 25, n_channels = 10)
 
 #%% # Setting correct channel names
 
@@ -146,6 +148,8 @@ ica2.plot_sources(epochs_b_seg_re, show_scrollbars=True)
 epochs_a_seg_re_cleaned = ica1.apply(epochs_a_seg_re, exclude = [0,3])
 epochs_b_seg_re_cleaned = ica2.apply(epochs_b_seg_re, exclude = [0,1,4,6])
 
+epochs_b_seg_re_cleaned.interpolate_bads()
+
 #%% Autoreject
 
 cleaned_epochs_ICA = [epochs_a_seg_re_cleaned,epochs_b_seg_re_cleaned]
@@ -154,6 +158,12 @@ cleaned_epochs_AR, dic_AR = prep.AR_local(cleaned_epochs_ICA,
                                           threshold=50.0,
                                           verbose=True)
 
+#%% Setting average reference
+cleaned_epochs_AR[0].set_eeg_reference('average')
+cleaned_epochs_AR[1].set_eeg_reference('average')
+
+cleaned_epochs_AR[0].save('epochs_a_short.fif', overwrite = True)
+cleaned_epochs_AR[1].save('epochs_b_short.fif', overwrite = True)
 
 #%% Get timings of bad segments
 
