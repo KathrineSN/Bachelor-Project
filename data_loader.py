@@ -16,12 +16,12 @@ from hypyp import stats
 from hypyp import viz
 from collections import Counter
 
-path="C:\\Users\\kathr\\OneDrive\\Documents\\Bachelor projekt"
+path="C:\\Users\\kathr\\OneDrive\\Documents\\Github\\Bachelor-Project"
 os.chdir(path)
 
 # Loading the data
 
-raw = mne.io.read_raw_bdf('Data\\pair003_20200129_1530.bdf', preload=True)
+raw = mne.io.read_raw_bdf('Data\\pair004_20200130_0930.bdf', preload=True)
 
 print(raw.info)
 
@@ -33,16 +33,16 @@ print(raw.info)
 
 f_raw = raw.filter(l_freq=1, h_freq=40, picks="eeg")
 
-f_rawc = f_raw.copy()
+#f_rawc = f_raw.copy()
 
-for i in range(len(new_ch_names)):
-    print(picks_a[i])
-    print(new_ch_names[i])
-    f_raw.rename_channels(mapping = {picks_a[i]:new_ch_names[i]})
+#for i in range(len(new_ch_names)):
+#    print(picks_a[i])
+#    print(new_ch_names[i])
+#    f_raw.rename_channels(mapping = {picks_a[i]:new_ch_names[i]})
 #
 #print(f_raw.info.ch_names)
 
-ica1.plot_sources(f_raw.pick(new_ch_names), show_scrollbars=True)
+#ica1.plot_sources(f_raw.pick(new_ch_names), show_scrollbars=True)
 #ica2.plot_sources(f_raw.pick(new_ch_names), show_scrollbars=True)
 
 #icas[0].plot_sources(f_raw.pick(new_ch_names), show_scrollbars=True)
@@ -133,8 +133,8 @@ mne.viz.tight_layout()
 #epochs_b_resampled.save('epochs_b_resampled-epo.fif', overwrite = True)
 
 # Loading epochs from fif
-epochs_a_resampled = mne.read_epochs('epochs_a_resampled-epo.fif', preload = True)
-epochs_b_resampled = mne.read_epochs('epochs_b_resampled-epo.fif', preload = True)
+#epochs_a_resampled = mne.read_epochs('epochs_a_resampled-epo.fif', preload = True)
+#epochs_b_resampled = mne.read_epochs('epochs_b_resampled-epo.fif', preload = True)
 
 # Setting correct channel names
 montage = mne.channels.make_standard_montage("biosemi64")
@@ -158,8 +158,8 @@ print(epochs_b_resampled.info.ch_names)
 # Renaming for use in HyPyP
 
 
-epochs_a_resampled.save('epochs_a_resampled-epo.fif', overwrite = True)
-epochs_b_resampled.save('epochs_b_resampled-epo.fif', overwrite = True)
+#.save('epochs_a_resampled-epo.fif', overwrite = True)
+#epochs_b_resampled.save('epochs_b_resampled-epo.fif', overwrite = True)
 #epo1 = epochs_a_resampled['Coupled']
 #epo2 = epochs_b_resampled['Coupled']
 
@@ -180,7 +180,7 @@ df_a = epochs_a_resampled.to_data_frame(picks = new_ch_names)
 df_b = epochs_b_resampled.to_data_frame(picks = new_ch_names)
 ch_stat_a = df_a.describe()
 ch_stat_b = df_b.describe()
-epo2.info['bads'].append('FC1')
+#epo2.info['bads'].append('FC1')
 #epo2_ex = epo2.copy()
 #epo2_ex.
 #epo2.interpolate_bads()
@@ -206,8 +206,11 @@ ica1.plot_sources(epo1, show_scrollbars=True)
 ica2.plot_sources(epo2, show_scrollbars=True)
 
 epo1_cleaned = ica1.apply(epo1, exclude = [0,3])
-epo2_cleaned = ica2.apply(epo2, exclude = [0,1,4,6])
+epo2_cleaned = ica2.apply(epo2, exclude = [0,8])
+epo1_cleaned.save('epochs_a_cleaned004-epo.fif', overwrite = True)
+epo2_cleaned.save('epochs_b_cleaned004-epo.fif', overwrite = True)
 
+#%%
 ######
 icas = prep.ICA_fit([epo1, epo2],
                     n_components=15,
@@ -223,6 +226,9 @@ epo1_cleaned.save('epochs_a_cleaned-epo.fif', overwrite = True)
 epo2_cleaned.save('epochs_b_cleaned-epo.fif', overwrite = True)
 epo1_cleaned.to_data_frame()
 epo2_cleaned.to_data_frame()
+
+#%%
+#####################################################
 
 #To create raw with ICA applied
 f_rawa = f_raw.pick(picks_a)

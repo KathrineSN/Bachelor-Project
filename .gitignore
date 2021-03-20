@@ -60,3 +60,6 @@ pair003_theta_Leader_long.npy
 pair003_theta_Leader_short.npy
 pair003_theta_Uncoupled_long.npy
 pair003_theta_Uncoupled_short.npy
+*.fif
+*.npy
+*.png

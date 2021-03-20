@@ -19,7 +19,7 @@ from hypyp import viz
 from collections import Counter
 import matplotlib.ticker as tic
 
-path="C:\\Users\\kathr\\OneDrive\\Documents\\Bachelor projekt"
+path="C:\\Users\\kathr\\OneDrive\\Documents\\GitHub\\Bachelor-Project"
 os.chdir(path)
 
 # Loading data
@@ -27,8 +27,8 @@ os.chdir(path)
 epochs_a_resampled = mne.read_epochs('epochs_a_resampled-epo.fif', preload = True)
 epochs_b_resampled = mne.read_epochs('epochs_b_resampled-epo.fif', preload = True)
 
-epochs_a_cleaned = mne.read_epochs('epochs_a_cleaned-epo.fif', preload = True)
-epochs_b_cleaned = mne.read_epochs('epochs_b_cleaned-epo.fif', preload = True)
+epochs_a_cleaned = mne.read_epochs('epochs_a_cleaned004-epo.fif', preload = True)
+epochs_b_cleaned = mne.read_epochs('epochs_b_cleaned004-epo.fif', preload = True)
 
 
 
@@ -116,6 +116,7 @@ def ICA_result(df_afterICA, df_beforeICA, start, length, chan_start, chan_end):
 #print(t[:1000])
 #print(t[:100000])
 
+#%%
 ICA_result(df_clean_a_coupled_5, df_a_coupled_5, 1, 6720, 0, 10)
 ICA_result(df_clean_a_coupled_5, df_a_coupled_5, 1, 6720, 10, 20)
 ICA_result(df_clean_a_coupled_5, df_a_coupled_5, 1, 6720, 20, 30)
@@ -129,6 +130,7 @@ ICA_result(df_clean_b_coupled_5, df_b_coupled_5, 1, 6720, 30, 40)
 ICA_result(df_clean_b_coupled_5, df_b_coupled_5, 1, 6720, 40, 50)
 ICA_result(df_clean_b_coupled_5, df_b_coupled_5, 1, 6720, 50, 64)
 
+#%%
 epochs_b_cleaned.interpolate_bads()
 
 epochs_a_cleaned.set_eeg_reference('average')
@@ -137,8 +139,8 @@ epochs_b_cleaned.set_eeg_reference('average')
 epochs_a_cleaned.plot(n_channels = 10, n_epochs = 1)
 epochs_b_cleaned.plot(n_channels = 10, n_epochs = 1)
 
-#epochs_a_cleaned.save('epochs_a_preprocessed-epo.fif', overwrite = True)
-#epochs_b_cleaned.save('epochs_b_preprocessed-epo.fif', overwrite = True)
+epochs_a_cleaned.save('epochs_a_004test2-epo.fif', overwrite = True)
+epochs_b_cleaned.save('epochs_b_004test2-epo.fif', overwrite = True)
 
 
 

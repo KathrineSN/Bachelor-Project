@@ -38,7 +38,7 @@ def loading_raw(file):
 
 def long_epochs(raw, plot = True):
     
-    #Changing channel names
+    #Dividing up into participant a and b
     picks_a = []
     picks_b = []
     channels = raw.info.ch_names
@@ -217,6 +217,7 @@ def calculate_ICA(epochs_a, epochs_b, plot = True):
 
     if plot: 
 
+        #inst = epochs_a til FORSKEL
         ica1.plot_components()
         ica2.plot_components()
 
@@ -343,12 +344,14 @@ def interpolate_bad_chans(epochs_a, epochs_b):
     if epochs_b.info['bads'] != []:
         epochs_b.interpolate_bads()
         print('Interpolated bad channel(s) of participant b')
+    
+    return epochs_a, epochs_b
         
 
 #%% Pipeline part 1
 
 # Loading raw
-f_raw = loading_raw('pair0010_20200205_1230.bdf')
+f_raw = loading_raw('pair004_20200130_0930.bdf')
 
 # Creating long epochs
 events, epochs_a, epochs_b = long_epochs(f_raw)
@@ -360,6 +363,10 @@ ev_list, epochs_a_s, epochs_b_s = short_epochs(f_raw)
 epochs_a_resampled, epochs_b_resampled = downsampling(epochs_a, epochs_b)
 epochs_a_s_resampled, epochs_b_s_resampled = downsampling(epochs_a_s, epochs_b_s)
 
+#Ensuring equal number of epochs
+mne.epochs.equalize_epoch_counts([epochs_a_resampled, epochs_b_resampled])
+mne.epochs.equalize_epoch_counts([epochs_a_s_resampled, epochs_b_s_resampled])
+
 # Identifying bad channels
 ch_stat_a, ch_stat_b = find_bad_chans(epochs_a_resampled, epochs_b_resampled, 1)
 ch_stat_a_s, ch_stat_b_s = find_bad_chans(epochs_a_s_resampled, epochs_b_s_resampled,10)
@@ -367,25 +374,97 @@ ch_stat_a_s, ch_stat_b_s = find_bad_chans(epochs_a_s_resampled, epochs_b_s_resam
 #%% Pipeline part 2
 
 # Marking bad channels
-#epochs_a_resampled.info['bads'].append('PO3')
-#epochs_a_s_resampled.info['bads'].append('PO3')
-
+#epochs_b_resampled.info['bads'].append('PO3')
+#epochs_b_s_resampled.info['bads'].append('PO3')
+#epochs_b_resampled.info['bads'].append('P1')
+#epochs_b_s_resampled.info['bads'].append('P1')
+#epochs_b_resampled.info['bads'].append('P2')
+#epochs_b_s_resampled.info['bads'].append('P2')
+#epochs_b_resampled.info['bads'].append('FC1')
+#epochs_b_s_resampled.info['bads'].append('FC1')
 
 # Calculating IC's
 ica1, ica2 = calculate_ICA(epochs_a_resampled, epochs_b_resampled, plot = True)
 ica1_s, ica2_s = calculate_ICA(epochs_a_s_resampled, epochs_b_s_resampled, plot = True)
 
 
+#%% Alternative ICA long
+ica1 = mne.preprocessing.ICA(n_components=15,
+                    method='infomax',
+                    fit_params=dict(extended=True),
+                    random_state=42)
+ica2 = mne.preprocessing.ICA(n_components=15,
+                    method='infomax',
+                    fit_params=dict(extended=True),
+                    random_state=42)
+
+ica1.fit(epochs_a_resampled)
+ica2.fit(epochs_b_resampled)
+
+ica1.plot_components()
+ica2.plot_components()
+
+ica1.plot_sources(epochs_a_resampled, show_scrollbars=True)
+ica2.plot_sources(epochs_b_resampled, show_scrollbars=True)
+
+epo1_cleaned = ica1.apply(epochs_a_resampled, exclude = [0,1])
+epo2_cleaned = ica2.apply(epochs_b_resampled, exclude = [0,1])
+
+before_vs_after_ICA(epochs_a_resampled, epochs_b_resampled, epo1_cleaned, epo2_cleaned)
+
+epochs_a_cleaned, epochs_b_cleaned = set_reference(epo1_cleaned, epo2_cleaned)
+
+epochs_a_cleaned.save('epochs_a_long_009.fif', overwrite = True)
+epochs_b_cleaned.save('epochs_b_long_009.fif', overwrite = True)
+
+#%% Alternative ICA short
+ica1 = mne.preprocessing.ICA(n_components=15,
+                    method='infomax',
+                    fit_params=dict(extended=True),
+                    random_state=42)
+ica2 = mne.preprocessing.ICA(n_components=15,
+                    method='infomax',
+                    fit_params=dict(extended=True),
+                    random_state=42)
+
+ica1.fit(epochs_a_s_resampled)
+ica2.fit(epochs_b_s_resampled)
+
+#ica1.plot_components()
+#ica2.plot_components()
+
+#ica1.plot_sources(epochs_a_s_resampled, show_scrollbars=True)
+#ica2.plot_sources(epochs_b_s_resampled, show_scrollbars=True)
+
+epo1_s_cleaned = ica1.apply(epochs_a_s_resampled, exclude = [0,1])
+epo2_s_cleaned = ica2.apply(epochs_b_s_resampled, exclude = [0,1])
+
+before_vs_after_ICA(epochs_a_s_resampled, epochs_b_s_resampled, epo1_s_cleaned, epo2_s_cleaned)
+
+epochs_a_s_cleaned, epochs_b_s_cleaned, dic_AR = remove_bad_segments(epo1_s_cleaned, epo2_s_cleaned)
+
+epochs_a_s_cleaned, epochs_b_s_cleaned = set_reference(epochs_a_s_cleaned, epochs_b_s_cleaned)
+
+#epochs_a_s_cleaned.save('epochs_a_short_009.fif', overwrite = True)
+#epochs_b_s_cleaned.save('epochs_b_short_009.fif', overwrite = True)
+
+
 #%% Pipeline part 3
 # Removing IC's related to artifacts
-epochs_a_cleaned, epochs_b_cleaned = ICA_remove_components(epochs_a_resampled, epochs_b_resampled, ica1, ica2)
-epochs_a_s_cleaned, epochs_b_s_cleaned = ICA_remove_components(epochs_a_s_resampled, epochs_b_s_resampled, ica1_s, ica2_s)
+epochs_a_cleaned, epochs_b_cleaned = ICA_remove_components(epochs_a_resampled, epochs_b_resampled, ica1, ica2, [0,3], [0,7])
+epochs_a_s_cleaned, epochs_b_s_cleaned = ICA_remove_components(epochs_a_s_resampled, epochs_b_s_resampled, ica1_s, ica2_s, [0,3], [0,8])
 
 # Plot showing effect of ICA
 before_vs_after_ICA(epochs_a_resampled, epochs_b_resampled, epochs_a_cleaned, epochs_b_cleaned)
 
 # Autorejection only on short epochs
 epochs_a_s_cleaned, epochs_b_s_cleaned, dic_AR = remove_bad_segments(epochs_a_s_cleaned, epochs_b_s_cleaned)
+
+# Interpolate bad channels
+epochs_a_cleaned.interpolate_bads()
+epochs_b_cleaned.interpolate_bads()
+epochs_a_s_cleaned.interpolate_bads()
+epochs_b_s_cleaned.interpolate_bads()
 
 #Setting the average reference
 epochs_a_cleaned, epochs_b_cleaned = set_reference(epochs_a_cleaned, epochs_b_cleaned)
@@ -397,11 +476,34 @@ epochs_b_cleaned.save('epochs_b_long_004.fif', overwrite = True)
 
 epochs_a_s_cleaned.save('epochs_a_short_004.fif', overwrite = True)
 epochs_b_s_cleaned.save('epochs_b_short_004.fif', overwrite = True)
+#%% NEW APPROACH
+from mat_functions import *
+from ccorr import ccorr
+from avg_matrices import load_avg_matrix
+file = 'pair004_20200130_0930.bdf'
+epo1, epo2 = prepocess_1(file)
+#%%
+bads1 = []
+bads2 = []
+epo1 = bad_removal(epo1, bads1)
+epo2 = bad_removal(epo2, bads2)  
+#%%
+ica1 = ica_part(epo1)
+ica2 = ica_part(epo2)
+#%%
+exclude1 = [0,3]
+save_name1 = 'epochs_a_long_4.fif'
+epo1_c = ica_removal(epo1, ica1, exclude1, save_name1)
+#%%
+exclude2 = [0,7]
+save_name2 = 'epochs_b_long_4.fif'
+epo2_c = ica_removal(epo2, ica2, exclude2, save_name2)
+#%%
+ccorr(epo1_c, epo2_c, 'pair004', 'long')
+#%%
+load_avg_matrix('beta','Coupled','long', plot = 0, sep = 1, save = 0)
 
-
-    
-    
-    
+ 
     
             
 
