@@ -653,7 +653,10 @@ def load_avg_matrix(freq_band, cond, length, plot = 1, sep = 0, save = 0):
         fig = plt.figure()
         plt.title(cond + ' ' + freq_band + ' ' + length)
         plt.imshow(avg_matrix,cmap=plt.cm.hot)
-        plt.clim(0,0.8)
+        if length == 'short':
+            plt.clim(0.3,0.5)
+        else:
+            plt.clim(0,0.1)
         plt.colorbar()
         plt.show()
         if save:
@@ -664,7 +667,10 @@ def load_avg_matrix(freq_band, cond, length, plot = 1, sep = 0, save = 0):
             fig = plt.figure()
             plt.title(cond + ' ' + freq_band + ' ' + length)
             plt.imshow(matrices[i], cmap=plt.cm.hot)
-            plt.clim(0,0.8)
+            if length == 'short':
+                plt.clim(0.3,0.4)
+            else:
+                plt.clim(0,0.1)
             plt.colorbar()
             plt.show()
             if save:

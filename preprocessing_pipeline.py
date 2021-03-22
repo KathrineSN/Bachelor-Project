@@ -84,6 +84,9 @@ load_avg_matrix('theta', 'Uncoupled', 'short', save = 1)
 load_avg_matrix('alpha', 'Control', 'short', save = 1)
 load_avg_matrix('beta', 'Control', 'short', save = 1)
 load_avg_matrix('theta', 'Control', 'short', save = 1)
+load_avg_matrix('alpha', 'Leader-Follower', 'short', save = 1)
+load_avg_matrix('beta', 'Leader-Follower', 'short', save = 1)
+load_avg_matrix('theta', 'Leader-Follower', 'short', save = 1)
 
 #%%
 #Long epochs
@@ -96,3 +99,6 @@ load_avg_matrix('theta', 'Uncoupled', 'long', save = 1)
 load_avg_matrix('alpha', 'Control', 'long', save = 1)
 load_avg_matrix('beta', 'Control', 'long', save = 1)
 load_avg_matrix('theta', 'Control', 'long', save = 1)
+load_avg_matrix('alpha', 'Leader-Follower', 'long', save = 1)
+load_avg_matrix('beta', 'Leader-Follower', 'long', save = 1)
+load_avg_matrix('theta', 'Leader-Follower', 'long', save = 1)
