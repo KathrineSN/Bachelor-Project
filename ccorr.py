@@ -22,12 +22,12 @@ from itertools import groupby
 
 path="C:\\Users\\kathr\\OneDrive\\Documents\\Github\\Bachelor-Project"
 os.chdir(path)
-
+'''
 epochs_a = mne.read_epochs('epochs_a_004test2-epo.fif', preload = True)
 epochs_b = mne.read_epochs('epochs_b_004test2-epo.fif', preload = True)
 epochs_a_s = mne.read_epochs('epochs_a_short_004.fif', preload = True)
 epochs_b_s = mne.read_epochs('epochs_b_short_004.fif', preload = True)
-
+'''
 def ccorr(epochs_a, epochs_b, pair_name, length):
     
     event_dict = {'Uncoupled': 102, 'Coupled': 103, 'Leader': 105,
@@ -306,7 +306,7 @@ def ccorr(epochs_a, epochs_b, pair_name, length):
         
       
     return theta, alpha, beta
-
+'''
 ccorr(epochs_a, epochs_b, 'pair004', 'long')
 ccorr(epochs_a_s, epochs_b_s, 'pair004', 'short')
 
@@ -316,3 +316,4 @@ epochs_a_s.plot(n_channels = 10, n_epochs = 10)
 # Test of opening of saved np-files
 #m = np.load('pair004_alpha_Control_long.npy')
 
+'''
