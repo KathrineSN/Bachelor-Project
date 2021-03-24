@@ -476,6 +476,7 @@ epochs_b_cleaned.save('epochs_b_long_004.fif', overwrite = True)
 
 epochs_a_s_cleaned.save('epochs_a_short_004.fif', overwrite = True)
 epochs_b_s_cleaned.save('epochs_b_short_004.fif', overwrite = True)
+
 #%% NEW APPROACH
 from mat_functions import *
 from ccorr import ccorr

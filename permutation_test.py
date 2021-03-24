@@ -31,6 +31,9 @@ def permutation_test(c_measure, cond1, cond2, freq, length):
         
         pairs = ['pair003_','pair004_','pair005_','pair007_','pair009_','pair0010_']
         
+        path="C:\\Users\\kathr\\OneDrive\\Documents\\GitHub\\Bachelor-Project\\Connectivity matrices\\ccorr"
+        os.chdir(path)
+        
         for i in pairs:
             
             for root, dirs, files in os.walk(path):

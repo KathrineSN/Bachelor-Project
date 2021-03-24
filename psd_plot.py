@@ -17,11 +17,11 @@ from hypyp import stats
 from hypyp import viz
 from collections import Counter
 
-path="C:\\Users\\kathr\\OneDrive\\Documents\\Bachelor projekt"
+path="C:\\Users\\kathr\\OneDrive\\Documents\\GitHub\\Bachelor-Project\\Files from preprocessing"
 os.chdir(path)
 
-epochs_a = mne.read_epochs('epochs_a_preprocessed-epo.fif', preload = True)
-epochs_b = mne.read_epochs('epochs_b_preprocessed-epo.fif', preload = True)
+epochs_a = mne.read_epochs('epochs_a_long_004.fif', preload = True)
+epochs_b = mne.read_epochs('epochs_b_long_004.fif', preload = True)
 
 epochs_a.plot_psd(fmin = 2, fmax = 40, average = True)
 epochs_b.plot_psd(fmin = 2, fmax = 40, average = True)
