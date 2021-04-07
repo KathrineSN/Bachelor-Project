@@ -18,9 +18,12 @@ from hypyp import viz
 from collections import Counter
 from collections import OrderedDict
 from itertools import groupby
+import scipy
 
 path="C:\\Users\\kathr\\OneDrive\\Documents\\GitHub\\Bachelor-Project"
 os.chdir(path)
+
+adj = scipy.sparse.load_npz(path + '\\Adjacency\\adjacency.npz')
 
 def permutation_test(c_measure, cond1, cond2, freq, length):
     
@@ -41,8 +44,10 @@ def permutation_test(c_measure, cond1, cond2, freq, length):
                 for f in files:
                     
                     if f.startswith(i + freq + '_' + cond1 + '_' + length + '.npy'):
-                        
-                        c1.append(np.load(f))
+                        # Avoiding unnessecary tests by only using upper triangle values in a list
+                        c = np.triu(np.load(f))
+                        c = c[c != 0]
+                        c1.append(c)
                         
         for i in pairs:
             
@@ -51,16 +56,28 @@ def permutation_test(c_measure, cond1, cond2, freq, length):
                 for f in files:
                     
                     if f.startswith(i + freq + '_' + cond2 + '_' + length + '.npy'):
-                        
-                        c2.append(np.load(f))
+                        c = np.triu(np.load(f))
+                        c = c[c != 0]
+                        c2.append(c)
         
         data = [np.array(c1), np.array(c2)]
-        
+        '''
         statscondCluster = stats.statscondCluster(data=data,
                                           freqs_mean=np.arange(4, 25),
                                           ch_con_freq=None,
                                           tail=0,
                                           n_permutations=5000,
                                           alpha=0.05)
+        '''
+        statscondCluster = mne.stats.permutation_cluster_test(X = data, n_permutations = 5000, tail = 0, adjacency = adj)
         
-    return statscondCluster
+        # Only return of there are significant clusters
+        sig_pv = []    
+        for i in range(len(statscondCluster[2])):
+            if statscondCluster[2][i] < 0.05:
+                sig_pv.append(statscondCluster[2][i])
+        if sig_pv != []:
+            return statscondCluster
+        else:
+            return
+

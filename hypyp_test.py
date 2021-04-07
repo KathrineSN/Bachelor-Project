@@ -105,7 +105,7 @@ complex_signal = analyses.compute_freq_bands(data_inter, sampling_rate,
 
 result = analyses.compute_sync(complex_signal, mode='coh')
 
-'''
+
 #Get interbrain part of the matrix
 n_ch = len(epo1.info['ch_names'])
 theta, alpha_low, alpha_high, beta, gamma = result[:, 0:n_ch, n_ch:2*n_ch]
@@ -145,7 +145,7 @@ viz.viz_2D_topomap_inter(epo1, epo2, C, threshold='auto', steps=10, lab=True)
 #Visualization of interbrain connectivity in 3D
 viz.viz_3D_inter(epo1, epo2, C, threshold='auto', steps=10, lab=False)
 
-'''
+
 
 
 

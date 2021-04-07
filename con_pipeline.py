@@ -5,6 +5,8 @@ Created on Wed Mar 24 14:50:16 2021
 @author: kathr
 """
 import os
+path="C:\\Users\\kathr\\OneDrive\\Documents\\Github\\Bachelor-Project"
+os.chdir(path)
 import mne
 import numpy as np
 import pandas as pd
@@ -18,15 +20,13 @@ from collections import OrderedDict
 from itertools import groupby
 from con_functions import *
 
-path="C:\\Users\\kathr\\OneDrive\\Documents\\Github\\Bachelor-Project"
-os.chdir(path)
 #%% Loading pair
 # for each pair do
-epochs_a = mne.read_epochs('epochs_a_long_3.fif')
-epochs_b = mne.read_epochs('epochs_b_long_3.fif')
+epochs_a = mne.read_epochs('epochs_a_long_10.fif')
+epochs_b = mne.read_epochs('epochs_b_long_10.fif')
 
-epochs_a_s = mne.read_epochs('epochs_a_short_3.fif')
-epochs_b_s = mne.read_epochs('epochs_b_short_3.fif')
+epochs_a_s = mne.read_epochs('epochs_a_short_10.fif')
+epochs_b_s = mne.read_epochs('epochs_b_short_10.fif')
 
 #%% defining drop lists
 drop_list_3 = [91, 108, 300, 301, 341, 351, 354, 355, 356, 381, 382, 383, 397, 398, 416, 442, 443, 473, 474, 476, 477, 497, 498, 502, 507, 508, 509, 510, 511, 512, 513, 514, 528, 530, 550, 551, 553, 554, 555, 556, 557, 559, 561, 578, 585, 586, 587, 588, 589, 603, 604, 622, 632, 654, 658, 660, 662, 663, 664, 669, 675, 677, 678, 683, 684, 686, 720, 721, 723, 724, 725, 727, 908, 967, 974, 975, 976, 980, 1011, 1027, 1031, 1033, 1034, 1036, 1041, 1042, 1072, 1073, 1125, 1126, 1145, 1146, 1147, 1148, 1260, 1271, 1279, 1292, 1303, 1314, 1315, 1329, 1338, 1339, 1340, 1341, 1347, 1349, 1351, 1358, 1362, 1363, 1364, 1365, 1366, 1367, 1368, 1369, 1378, 1395, 1396, 1408, 1439, 1463, 1486, 1514, 1515, 1517, 1519, 1520, 1521, 1522, 1523, 1628, 1630, 1631, 1632, 1633, 1643, 1655, 1656, 1657, 1660, 1661, 1662, 1663]
@@ -45,21 +45,74 @@ ccorr(epochs_a_s, epochs_b_s, 'pair003', 'short', drop_list = drop_list_3)
 
 #%% Coherence
 
-data_inter = np.array([epochs_a, epochs_b])
+theta, alpha, beta, result = coh(epochs_a, epochs_b, 'pair0010', 'long', drop_list = [])
+coh(epochs_a_s, epochs_b_s, 'pair0010', 'short', drop_list = drop_list_3)
 
-#Analytic signal per frequency band
-complex_signal = analyses.compute_freq_bands(data_inter, sampling_rate,
-                                             freq_bands)
+#%% Avg. matrices
+#Short epochs
+load_avg_matrix('coh','alpha', 'Coupled', 'short', save = 1)
+load_avg_matrix('coh','beta', 'Coupled', 'short', save = 1)
+load_avg_matrix('coh','theta', 'Coupled', 'short', save = 1)
+load_avg_matrix('coh','alpha', 'Uncoupled', 'short', save = 1)
+load_avg_matrix('coh','beta', 'Uncoupled', 'short', save = 1)
+load_avg_matrix('coh','theta', 'Uncoupled', 'short', save = 1)
+load_avg_matrix('coh','alpha', 'Control', 'short', save = 1)
+load_avg_matrix('coh','beta', 'Control', 'short', save = 1)
+load_avg_matrix('coh','theta', 'Control', 'short', save = 1)
+load_avg_matrix('coh','alpha', 'Leader-Follower', 'short', save = 1)
+load_avg_matrix('coh','beta', 'Leader-Follower', 'short', save = 1)
+load_avg_matrix('coh','theta', 'Leader-Follower', 'short', save = 1)
 
-result = analyses.compute_sync(complex_signal, mode='coh')
+#%%
+#Long epochs
+plt.close('all')
+load_avg_matrix('coh','alpha', 'Coupled', 'long', save = 1)
+load_avg_matrix('coh','beta', 'Coupled', 'long', save = 1)
+load_avg_matrix('coh','theta', 'Coupled', 'long', save = 1)
+load_avg_matrix('coh','alpha', 'Uncoupled', 'long', save = 1)
+load_avg_matrix('coh','beta', 'Uncoupled', 'long', save = 1)
+load_avg_matrix('coh','theta', 'Uncoupled', 'long', save = 1)
+load_avg_matrix('coh','alpha', 'Control', 'long', save = 1)
+load_avg_matrix('coh','beta', 'Control', 'long', save = 1)
+load_avg_matrix('coh','theta', 'Control', 'long', save = 1)
+load_avg_matrix('coh','alpha', 'Leader-Follower', 'long', save = 1)
+load_avg_matrix('coh','beta', 'Leader-Follower', 'long', save = 1)
+load_avg_matrix('coh','theta', 'Leader-Follower', 'long', save = 1)
+load_avg_matrix('coh','beta','Coupled','short', plot = 0, sep = 1, save = 0)
 
+#%%
+coupled = load_avg_matrix('coh', 'alpha', 'Coupled', 'short', save = 1)
+uncoupled = load_avg_matrix('coh', 'alpha', 'Uncoupled', 'short', save = 1)
+control = load_avg_matrix('coh', 'alpha', 'Control', 'short', save = 1)
 
-alpha, beta, theta, result = coh(epochs_a, epochs_b, 'pair003', 'long', drop_list = [])
-coh(epochs_a_s, epochs_b_s, 'pair003', 'short', drop_list = drop_list_3)
+contrast1 = coupled-uncoupled
+contrast2 = coupled-control
+contrast3 = control-uncoupled
 
 fig = plt.figure()
-plt.title('Alpha')
-plt.imshow(alpha,cmap=plt.cm.hot)
-plt.clim(6,10)
+plt.title('coupled - uncoupled')
+plt.imshow(contrast1,cmap=plt.cm.seismic)
+plt.clim(-0.05,0.05)
 plt.colorbar()
 plt.show()
+fig.savefig('avg_matrices/contrast/coupled_uncoupled.png')
+
+fig = plt.figure()
+plt.title('coupled - control')
+plt.imshow(contrast2,cmap=plt.cm.seismic)
+plt.clim(-0.05,0.05)
+plt.colorbar()
+plt.show()
+fig.savefig('avg_matrices/contrast/coupled_control.png')
+
+fig = plt.figure()
+plt.title('control - uncoupled')
+plt.imshow(contrast3,cmap=plt.cm.seismic)
+plt.clim(-0.05,0.05)
+plt.colorbar()
+plt.show()
+fig.savefig('avg_matrices/contrast/control_uncoupled.png')
+
+#%%
+
+
