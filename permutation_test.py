@@ -25,6 +25,12 @@ os.chdir(path)
 
 adj = scipy.sparse.load_npz(path + '\\Adjacency\\adjacency.npz')
 
+#Using t-test instead of default F-test
+def ttest_no_p(*args):
+    tvals, _ = scipy.stats.ttest_ind(*args)
+    return tvals
+        
+
 def permutation_test(c_measure, cond1, cond2, freq, length):
     
     if c_measure == 'ccorr':
@@ -69,7 +75,8 @@ def permutation_test(c_measure, cond1, cond2, freq, length):
                                           n_permutations=5000,
                                           alpha=0.05)
         '''
-        statscondCluster = mne.stats.permutation_cluster_test(X = data, n_permutations = 5000, tail = 0, adjacency = adj)
+        
+        statscondCluster = mne.stats.permutation_cluster_test(X = data, n_permutations = 5000, tail = 0, stat_fun = mne.stats.ttest_ind_no_p, adjacency = adj)
         
         # Only return of there are significant clusters
         sig_pv = []    

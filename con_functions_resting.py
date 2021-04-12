@@ -1,3 +1,4 @@
+
 # -*- coding: utf-8 -*-
 """
 Created on Wed Mar 24 14:24:09 2021
@@ -17,15 +18,15 @@ from collections import Counter
 from collections import OrderedDict
 from itertools import groupby
 
-path="C:\\Users\\kathr\\OneDrive\\Documents\\Github\\Bachelor-Project"
+path="C:\\Users\\kathr\\OneDrive\\Documents\\Github\\Bachelor-Project\\Resting condition"
 os.chdir(path)
 
 def coh(epochs_a, epochs_b, pair_name, length, drop_list):
 
-    event_dict = {'Uncoupled': 102, 'Coupled': 103, 'Leader': 105,
+    event_dict = {'Resting': 101, 'Uncoupled': 102, 'Coupled': 103, 'Leader': 105,
               'Follower': 107, 'Control':108 }
     
-    conditions = ['Coupled', 'Uncoupled', 'Leader', 'Control']
+    conditions = ['Resting','Coupled', 'Uncoupled', 'Leader', 'Control']
     
     if length == 'long':
         epochs_a.crop(tmin = 2, tmax = 23)
@@ -107,9 +108,9 @@ def coh(epochs_a, epochs_b, pair_name, length, drop_list):
             print('Beta max:' + str(np.max(beta)))
             print('Beta min:' + str(np.min(beta)))
             
-            np.save('Connectivity matrices/coh/' + 'coh_' + pair_name + '_theta_' + i + '_' + length, theta)
-            np.save('Connectivity matrices/coh/' + 'coh_' + pair_name + '_alpha_' + i + '_' + length, alpha)
-            np.save('Connectivity matrices/coh/' + 'coh_' + pair_name + '_beta_' + i + '_' + length, beta)
+            np.save('con matrices/coh/' + 'coh_' + pair_name + '_theta_' + i + '_' + length, theta)
+            np.save('con matrices/coh/' + 'coh_' + pair_name + '_alpha_' + i + '_' + length, alpha)
+            np.save('con matrices/coh/' + 'coh_' + pair_name + '_beta_' + i + '_' + length, beta)
     
     if length == 'short':
         
@@ -212,9 +213,9 @@ def coh(epochs_a, epochs_b, pair_name, length, drop_list):
                 print('Beta max:' + str(np.max(beta)))
                 print('Beta min:' + str(np.min(beta)))
                 
-                np.save('Connectivity matrices/coh/' + 'coh_' + pair_name + '_theta_' + c + '_' + length, theta)
-                np.save('Connectivity matrices/coh/' + 'coh_' + pair_name + '_alpha_' + c + '_' + length, alpha)
-                np.save('Connectivity matrices/coh/' + 'coh_' + pair_name + '_beta_' + c + '_' + length, beta)
+                np.save('con matrices/coh/' + 'coh_' + pair_name + '_theta_' + c + '_' + length, theta)
+                np.save('con matrices/coh/' + 'coh_' + pair_name + '_alpha_' + c + '_' + length, alpha)
+                np.save('con matrices/coh/' + 'coh_' + pair_name + '_beta_' + c + '_' + length, beta)
             else: 
                 epo_a_c = epo_a[c]
                 epo_b_c = epo_b[c]
@@ -270,19 +271,19 @@ def coh(epochs_a, epochs_b, pair_name, length, drop_list):
                 print('Beta max:' + str(np.max(beta)))
                 print('Beta min:' + str(np.min(beta)))
                 
-                np.save('Connectivity matrices/coh/' + 'coh_' + pair_name + '_theta_' + c + '_' + length, theta)
-                np.save('Connectivity matrices/coh/' + 'coh_' + pair_name + '_alpha_' + c + '_' + length, alpha)
-                np.save('Connectivity matrices/coh/' + 'coh_' + pair_name + '_beta_' + c + '_' + length, beta)
+                np.save('con matrices/coh/' + 'coh_' + pair_name + '_theta_' + c + '_' + length, theta)
+                np.save('con matrices/coh/' + 'coh_' + pair_name + '_alpha_' + c + '_' + length, alpha)
+                np.save('con matrices/coh/' + 'coh_' + pair_name + '_beta_' + c + '_' + length, beta)
         
       
-    return theta, alpha, beta, result, complex_signal
+    return theta, alpha, beta, result
 
 def ccorr(epochs_a, epochs_b, pair_name, length, drop_list):
     
-    event_dict = {'Uncoupled': 102, 'Coupled': 103, 'Leader': 105,
+    event_dict = {'Resting': 101, 'Uncoupled': 102, 'Coupled': 103, 'Leader': 105,
               'Follower': 107, 'Control':108 }
     
-    conditions = ['Coupled', 'Uncoupled', 'Leader', 'Control']
+    conditions = ['Resting','Coupled', 'Uncoupled', 'Leader', 'Control']
     
     if length == 'long':
         epochs_a.crop(tmin = 2, tmax = 23)
@@ -360,9 +361,9 @@ def ccorr(epochs_a, epochs_b, pair_name, length, drop_list):
             print('Beta max:' + str(np.max(beta)))
             print('Beta min:' + str(np.min(beta)))
             
-            np.save('Connectivity matrices/ccorr/' + 'ccorr_' + pair_name + '_theta_' + i + '_' + length, theta)
-            np.save('Connectivity matrices/ccorr/' + 'ccorr_' + pair_name + '_alpha_' + i + '_' + length, alpha)
-            np.save('Connectivity matrices/ccorr/' + 'ccorr_' + pair_name + '_beta_' + i + '_' + length, beta)
+            np.save('con matrices/ccorr/' + 'ccorr_' + pair_name + '_theta_' + i + '_' + length, theta)
+            np.save('con matrices/ccorr/' + 'ccorr_' + pair_name + '_alpha_' + i + '_' + length, alpha)
+            np.save('con matrices/ccorr/' + 'ccorr_' + pair_name + '_beta_' + i + '_' + length, beta)
     
     if length == 'short':
         
@@ -477,9 +478,9 @@ def ccorr(epochs_a, epochs_b, pair_name, length, drop_list):
                 print('Beta max:' + str(np.max(beta)))
                 print('Beta min:' + str(np.min(beta)))
                 
-                np.save('Connectivity matrices/ccorr/' + 'ccorr_' + pair_name + '_theta_' + c + '_' + length, theta)
-                np.save('Connectivity matrices/ccorr/' + 'ccorr_' + pair_name + '_alpha_' + c + '_' + length, alpha)
-                np.save('Connectivity matrices/ccorr/' + 'ccorr_' + pair_name + '_beta_' + c + '_' + length, beta)
+                np.save('con matrices/ccorr/' + 'ccorr_' + pair_name + '_theta_' + c + '_' + length, theta)
+                np.save('con matrices/ccorr/' + 'ccorr_' + pair_name + '_alpha_' + c + '_' + length, alpha)
+                np.save('con matrices/ccorr/' + 'ccorr_' + pair_name + '_beta_' + c + '_' + length, beta)
                 
             else: 
                 epo_a_c = epo_a[c]
@@ -548,9 +549,9 @@ def ccorr(epochs_a, epochs_b, pair_name, length, drop_list):
                 print('Beta max:' + str(np.max(beta)))
                 print('Beta min:' + str(np.min(beta)))
                 
-                np.save('Connectivity matrices/ccorr/' + 'ccorr_' + pair_name + '_theta_' + c + '_' + length, theta)
-                np.save('Connectivity matrices/ccorr/' + 'ccorr_' + pair_name + '_alpha_' + c + '_' + length, alpha)
-                np.save('Connectivity matrices/ccorr/' + 'ccorr_' + pair_name + '_beta_' + c + '_' + length, beta)
+                np.save('con matrices/ccorr/' + 'ccorr_' + pair_name + '_theta_' + c + '_' + length, theta)
+                np.save('con matrices/ccorr/' + 'ccorr_' + pair_name + '_alpha_' + c + '_' + length, alpha)
+                np.save('con matrices/ccorr/' + 'ccorr_' + pair_name + '_beta_' + c + '_' + length, beta)
         
       
     return theta, alpha, beta
@@ -562,7 +563,7 @@ def load_avg_matrix(con_measure, freq_band, cond, length, plot = 1, sep = 0, sav
     pairs = ['pair003_','pair004_','pair005_','pair007_','pair009_','pair0010_']
     
     for i in pairs:
-        path="C:\\Users\\kathr\\OneDrive\\Documents\\GitHub\\Bachelor-Project\\Connectivity matrices\\" + con_measure
+        path="C:\\Users\\kathr\\OneDrive\\Documents\\GitHub\\Bachelor-Project\\Resting condition\\con matrices\\" + con_measure
         os.chdir(path)
         for root, dirs, files in os.walk(path):
             
@@ -579,20 +580,20 @@ def load_avg_matrix(con_measure, freq_band, cond, length, plot = 1, sep = 0, sav
         mat_sum += mat
     avg_matrix = mat_sum/len(matrices)
     
-    path="C:\\Users\\kathr\\OneDrive\\Documents\\GitHub\\Bachelor-Project"
+    path="C:\\Users\\kathr\\OneDrive\\Documents\\GitHub\\Bachelor-Project\\Resting condition"
     os.chdir(path)
     if plot:
         fig = plt.figure()
         plt.title(cond + ' ' + freq_band + ' ' + length)
         plt.imshow(avg_matrix,cmap=plt.cm.Reds)
         if length == 'short':
-            plt.clim(0.27,0.33)
+            plt.clim(0.15,0.35)
         else:
             plt.clim(0,0.2)
         plt.colorbar()
         plt.show()
         if save:
-                fig.savefig('avg_matrices/' + con_measure + '/' + cond + '_' + freq_band + '_' + length + '.png')
+                fig.savefig('avg. matrices/' + con_measure + '/' + cond + '_' + freq_band + '_' + length + '.png')
     
     if sep:
         for i in range(len(matrices)):
@@ -600,13 +601,13 @@ def load_avg_matrix(con_measure, freq_band, cond, length, plot = 1, sep = 0, sav
             plt.title(cond + ' ' + freq_band + ' ' + length)
             plt.imshow(matrices[i], cmap=plt.cm.Reds)
             if length == 'short':
-                plt.clim(0.0,0.2)
+                plt.clim(0.15,0.35)
             else:
                 plt.clim(0,0.1)
             plt.colorbar()
             plt.show()
             if save:
-                fig.savefig('sep_matrices/' + con_measure + '/' + str(pairs[i]) + '_' + cond + '_' + freq_band + '_' + length + '.png')
+                fig.savefig('sep. matrices/' + con_measure + '/' + str(pairs[i]) + '_' + cond + '_' + freq_band + '_' + length + '.png')
          
     return avg_matrix
 

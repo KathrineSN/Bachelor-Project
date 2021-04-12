@@ -45,7 +45,7 @@ ccorr(epochs_a_s, epochs_b_s, 'pair003', 'short', drop_list = drop_list_3)
 
 #%% Coherence
 
-theta, alpha, beta, result = coh(epochs_a, epochs_b, 'pair0010', 'long', drop_list = [])
+theta, alpha, beta, result, complex_signal = coh(epochs_a, epochs_b, 'pair0010', 'long', drop_list = [])
 coh(epochs_a_s, epochs_b_s, 'pair0010', 'short', drop_list = drop_list_3)
 
 #%% Avg. matrices

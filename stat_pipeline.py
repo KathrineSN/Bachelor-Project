@@ -58,7 +58,7 @@ stat_ccorr_cou_unc_theta = permutation_test('ccorr', 'Uncoupled', 'Coupled', 'th
 #    con_names = pickle.load(fp)
     
 # Check if there are significant clusters
-con = stat_ccorr_cou_con_alpha
+con = stat_ccorr_cou_con_theta
 #con = stat_ccorr_unc_con_alpha
 pv = con[2]
 #pv = stat_ccorr_unc_con_alpha[2]
@@ -91,6 +91,10 @@ for i in range(64):
             idx+=1
 
 # Topomap
+path="C:\\Users\\kathr\\OneDrive\\Documents\\GitHub\\Bachelor-Project"
+os.chdir(path)
+#plt.title('coupled-control alpha long')
+plt.title('uncoupled-control alpha long')
 viz.viz_2D_topomap_inter(epo1, epo2, m_init, threshold='auto', steps=10, lab=True)
 viz.viz_3D_inter(epo1, epo2, m_init, threshold='auto', steps=10, lab=False)
 
