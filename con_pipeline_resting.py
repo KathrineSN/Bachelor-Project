@@ -49,9 +49,9 @@ coh(epochs_a_s, epochs_b_s, 'pair0010', 'short', drop_list = drop_list_10)
 
 
 #%% Average matrices
-load_avg_matrix('ccorr','alpha', 'Resting', 'short', save = 1)
-load_avg_matrix('ccorr','beta', 'Resting', 'short', save = 1)
-load_avg_matrix('ccorr','theta', 'Resting', 'short', save = 1)
+load_avg_matrix('ccorr','alpha', 'Resting', 'short', save = 0)
+load_avg_matrix('ccorr','beta', 'Resting', 'short', save = 0)
+load_avg_matrix('ccorr','theta', 'Resting', 'short', save = 0)
 
 #%%
 load_avg_matrix('coh','alpha', 'Resting', 'short', save = 1)

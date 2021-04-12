@@ -22,10 +22,10 @@ os.chdir(path)
 
 def coh(epochs_a, epochs_b, pair_name, length, drop_list):
 
-    event_dict = {'Uncoupled': 102, 'Coupled': 103, 'Leader': 105,
+    event_dict = {'Resting':101, 'Uncoupled': 102, 'Coupled': 103, 'Leader': 105,
               'Follower': 107, 'Control':108 }
     
-    conditions = ['Coupled', 'Uncoupled', 'Leader', 'Control']
+    conditions = ['Resting', 'Coupled', 'Uncoupled', 'Leader', 'Control']
     
     if length == 'long':
         epochs_a.crop(tmin = 2, tmax = 23)
@@ -113,8 +113,6 @@ def coh(epochs_a, epochs_b, pair_name, length, drop_list):
     
     if length == 'short':
         
-        #conditions = ['Coupled', 'Uncoupled', 'Leader', 'Follower', 'Control']
-        
         epo_drop = []
         epo_drop.append(0)
         epo_drop.append(1)
@@ -185,23 +183,23 @@ def coh(epochs_a, epochs_b, pair_name, length, drop_list):
                 n_ch = len(epochs_a.info['ch_names'])
                 
                 #Averaging over the epochs specific to the given trial
-                trials = []
+                trials_lf = []
                 
                 for j in range(3):
-                    for i in d[event_dict['Leader']] or d[event_dict['Follower']]:
-                        trials.append(sum(result[j,0:i,:,:])/i)
+                    for i in d[event_dict['Leader']] + d[event_dict['Follower']]:
+                        trials_lf.append(sum(result[j,0:i,:,:])/i)
                 
-                theta = sum(trials[::3])/16
-                alpha = sum(trials[1::3])/16
-                beta = sum(trials[2::3])/16
+                theta = sum(trials_lf[::3])/16
+                alpha = sum(trials_lf[1::3])/16
+                beta = sum(trials_lf[2::3])/16
                     
                 theta = theta[0:n_ch, n_ch:2*n_ch]
                 alpha = alpha[0:n_ch, n_ch:2*n_ch]
                 beta = beta[0:n_ch, n_ch:2*n_ch]
                 
-                theta = abs(theta - np.mean(theta[:])) / np.std(theta[:])
-                alpha = abs(alpha - np.mean(alpha[:])) / np.std(alpha[:])
-                beta = abs(beta - np.mean(beta[:])) / np.std(beta[:])
+                #theta = abs(theta - np.mean(theta[:])) / np.std(theta[:])
+                #alpha = abs(alpha - np.mean(alpha[:])) / np.std(alpha[:])
+                #beta = abs(beta - np.mean(beta[:])) / np.std(beta[:])
                 
                 print(c)
                 print('Range of the connectivities:')
@@ -279,10 +277,10 @@ def coh(epochs_a, epochs_b, pair_name, length, drop_list):
 
 def ccorr(epochs_a, epochs_b, pair_name, length, drop_list):
     
-    event_dict = {'Uncoupled': 102, 'Coupled': 103, 'Leader': 105,
+    event_dict = {'Resting': 101,'Uncoupled': 102, 'Coupled': 103, 'Leader': 105,
               'Follower': 107, 'Control':108 }
     
-    conditions = ['Coupled', 'Uncoupled', 'Leader', 'Control']
+    conditions = ['Resting', 'Coupled', 'Uncoupled', 'Leader', 'Control']
     
     if length == 'long':
         epochs_a.crop(tmin = 2, tmax = 23)
@@ -441,7 +439,7 @@ def ccorr(epochs_a, epochs_b, pair_name, length, drop_list):
                 trials = []
                 
                 for j in range(3):
-                    for i in d[event_dict['Leader']] or d[event_dict['Follower']]:
+                    for i in d[event_dict['Leader']] + d[event_dict['Follower']]:
                         trials.append(sum(result[j,0:i,:,:])/i)
                 
                 '''
@@ -468,6 +466,7 @@ def ccorr(epochs_a, epochs_b, pair_name, length, drop_list):
                 theta = abs(theta - np.mean(theta[:]) / np.std(theta[:]))
                 alpha = abs(alpha - np.mean(alpha[:]) / np.std(alpha[:]))
                 beta = abs(beta - np.mean(beta[:]) / np.std(beta[:]))
+                
                 print(c)
                 print('Range of the connectivities:')
                 print('Theta max:' + str(np.max(theta)))
@@ -515,19 +514,6 @@ def ccorr(epochs_a, epochs_b, pair_name, length, drop_list):
                     for i in d[event_dict[c]]:
                         trials.append(sum(result[j,0:i,:,:])/i)
                 
-                '''
-                if c == 'Leader' or c == 'Follower':
-                    print('LF')
-                    print(len(trials))
-                    theta = sum(trials[::3])/8
-                    alpha = sum(trials[1::3])/8
-                    beta = sum(trials[2::3])/8
-                
-                else:
-                    theta = sum(trials[::3])/16
-                    alpha = sum(trials[1::3])/16
-                    beta = sum(trials[2::3])/16
-                '''
                 theta = sum(trials[::3])/16
                 alpha = sum(trials[1::3])/16
                 beta = sum(trials[2::3])/16
@@ -564,21 +550,20 @@ def load_avg_matrix(con_measure, freq_band, cond, length, plot = 1, sep = 0, sav
     for i in pairs:
         path="C:\\Users\\kathr\\OneDrive\\Documents\\GitHub\\Bachelor-Project\\Connectivity matrices\\" + con_measure
         os.chdir(path)
-        for root, dirs, files in os.walk(path):
+
+        files = os.listdir(path)
+        for f in files:
             
-            for f in files:
-                
-                if f.startswith(con_measure + '_' + i + freq_band + '_' + cond + '_' + length + '.npy'):
-                    print(f)
-                    matrices.append(np.load(f))
+            if f.startswith(con_measure + '_' + i + freq_band + '_' + cond + '_' + length + '.npy'):
+                matrices.append(np.load(f))
                     
-    print(matrices)
-    #avg_matrix = np.mean(matrices, axis = )
     mat_sum = np.zeros_like(matrices[0])
     for mat in matrices:
         mat_sum += mat
     avg_matrix = mat_sum/len(matrices)
-    
+    print(np.min(avg_matrix))
+    print(np.max(avg_matrix))
+
     path="C:\\Users\\kathr\\OneDrive\\Documents\\GitHub\\Bachelor-Project"
     os.chdir(path)
     if plot:
@@ -586,9 +571,25 @@ def load_avg_matrix(con_measure, freq_band, cond, length, plot = 1, sep = 0, sav
         plt.title(cond + ' ' + freq_band + ' ' + length)
         plt.imshow(avg_matrix,cmap=plt.cm.Reds)
         if length == 'short':
-            plt.clim(0.27,0.33)
+            if con_measure == 'ccorr':
+                if cond == 'Resting':
+                    plt.clim(0.2,0.35)
+                else:
+                    plt.clim(0.35,0.55)
+            else:
+                plt.clim(0.35,0.55)
+            if con_measure == 'coh':
+                if cond == 'Resting':
+                    plt.clim(0.0,0.1)
+                elif cond == 'Leader-Follower':
+                    plt.clim(0.27,0.33)
+                else:
+                    plt.clim(0.27,0.33)
+            else:
+                plt.clim(0.35,0.55) # Maybe remove this
+                  
         else:
-            plt.clim(0,0.2)
+            plt.clim(0,2)
         plt.colorbar()
         plt.show()
         if save:
@@ -600,7 +601,7 @@ def load_avg_matrix(con_measure, freq_band, cond, length, plot = 1, sep = 0, sav
             plt.title(cond + ' ' + freq_band + ' ' + length)
             plt.imshow(matrices[i], cmap=plt.cm.Reds)
             if length == 'short':
-                plt.clim(0.0,0.2)
+                plt.clim(0.35,0.55)
             else:
                 plt.clim(0,0.1)
             plt.colorbar()

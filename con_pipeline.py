@@ -22,11 +22,11 @@ from con_functions import *
 
 #%% Loading pair
 # for each pair do
-epochs_a = mne.read_epochs('epochs_a_long_10.fif')
-epochs_b = mne.read_epochs('epochs_b_long_10.fif')
+#epochs_a = mne.read_epochs('epochs_a_long_10.fif')
+#epochs_b = mne.read_epochs('epochs_b_long_10.fif')
 
-epochs_a_s = mne.read_epochs('epochs_a_short_10.fif')
-epochs_b_s = mne.read_epochs('epochs_b_short_10.fif')
+epochs_a_s = mne.read_epochs('epochs_a_short_10_resting.fif')
+epochs_b_s = mne.read_epochs('epochs_b_short_10_resting.fif')
 
 #%% defining drop lists
 drop_list_3 = [91, 108, 300, 301, 341, 351, 354, 355, 356, 381, 382, 383, 397, 398, 416, 442, 443, 473, 474, 476, 477, 497, 498, 502, 507, 508, 509, 510, 511, 512, 513, 514, 528, 530, 550, 551, 553, 554, 555, 556, 557, 559, 561, 578, 585, 586, 587, 588, 589, 603, 604, 622, 632, 654, 658, 660, 662, 663, 664, 669, 675, 677, 678, 683, 684, 686, 720, 721, 723, 724, 725, 727, 908, 967, 974, 975, 976, 980, 1011, 1027, 1031, 1033, 1034, 1036, 1041, 1042, 1072, 1073, 1125, 1126, 1145, 1146, 1147, 1148, 1260, 1271, 1279, 1292, 1303, 1314, 1315, 1329, 1338, 1339, 1340, 1341, 1347, 1349, 1351, 1358, 1362, 1363, 1364, 1365, 1366, 1367, 1368, 1369, 1378, 1395, 1396, 1408, 1439, 1463, 1486, 1514, 1515, 1517, 1519, 1520, 1521, 1522, 1523, 1628, 1630, 1631, 1632, 1633, 1643, 1655, 1656, 1657, 1660, 1661, 1662, 1663]
@@ -39,17 +39,35 @@ drop_list_10 = [316, 323, 325, 326, 364, 481, 508, 577, 598, 599, 600, 806, 962,
 
 #%% Circular correlation
 
-ccorr(epochs_a, epochs_b, 'pair003', 'long', drop_list = [])
-ccorr(epochs_a_s, epochs_b_s, 'pair003', 'short', drop_list = drop_list_3)
+#ccorr(epochs_a, epochs_b, 'pair003', 'long', drop_list = [])
+ccorr(epochs_a_s, epochs_b_s, 'pair0010', 'short', drop_list = drop_list_10)
 
 
 #%% Coherence
 
-theta, alpha, beta, result, complex_signal = coh(epochs_a, epochs_b, 'pair0010', 'long', drop_list = [])
-coh(epochs_a_s, epochs_b_s, 'pair0010', 'short', drop_list = drop_list_3)
+#theta, alpha, beta, result, complex_signal = coh(epochs_a, epochs_b, 'pair0010', 'long', drop_list = [])
+coh(epochs_a_s, epochs_b_s, 'pair0010', 'short', drop_list = drop_list_10)
 
 #%% Avg. matrices
 #Short epochs
+#ccorr
+load_avg_matrix('ccorr','alpha', 'Coupled', 'short', save = 1)
+load_avg_matrix('ccorr','beta', 'Coupled', 'short', save = 1)
+load_avg_matrix('ccorr','theta', 'Coupled', 'short', save = 1)
+load_avg_matrix('ccorr','alpha', 'Uncoupled', 'short', save = 1)
+load_avg_matrix('ccorr','beta', 'Uncoupled', 'short', save = 1)
+load_avg_matrix('ccorr','theta', 'Uncoupled', 'short', save = 1)
+load_avg_matrix('ccorr','alpha', 'Control', 'short', save = 1)
+load_avg_matrix('ccorr','beta', 'Control', 'short', save = 1)
+load_avg_matrix('ccorr','theta', 'Control', 'short', save = 1)
+load_avg_matrix('ccorr','alpha', 'Leader-Follower', 'short', save = 1)
+load_avg_matrix('ccorr','beta', 'Leader-Follower', 'short', save = 1)
+load_avg_matrix('ccorr','theta', 'Leader-Follower', 'short', save = 1)
+load_avg_matrix('ccorr','alpha', 'Resting', 'short', save = 1)
+load_avg_matrix('ccorr','beta', 'Resting', 'short', save = 1)
+load_avg_matrix('ccorr','theta', 'Resting', 'short', save = 1)
+#%%
+#coh
 load_avg_matrix('coh','alpha', 'Coupled', 'short', save = 1)
 load_avg_matrix('coh','beta', 'Coupled', 'short', save = 1)
 load_avg_matrix('coh','theta', 'Coupled', 'short', save = 1)
@@ -62,7 +80,9 @@ load_avg_matrix('coh','theta', 'Control', 'short', save = 1)
 load_avg_matrix('coh','alpha', 'Leader-Follower', 'short', save = 1)
 load_avg_matrix('coh','beta', 'Leader-Follower', 'short', save = 1)
 load_avg_matrix('coh','theta', 'Leader-Follower', 'short', save = 1)
-
+load_avg_matrix('coh','alpha', 'Resting', 'short', save = 1)
+load_avg_matrix('coh','beta', 'Resting', 'short', save = 1)
+load_avg_matrix('coh','theta', 'Resting', 'short', save = 1)
 #%%
 #Long epochs
 plt.close('all')
