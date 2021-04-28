@@ -87,7 +87,7 @@ new_events = events[1::2,:]
 # Number of events
 
 
-event_dict = {'Uncoupled': 102, 'Coupled': 103, 'Leader': 105,
+event_dict = {'Resting': 101, 'Uncoupled': 102, 'Coupled': 103, 'Leader': 105,
               'Follower': 107, 'Control':108 } 
 
 epochs_a = mne.Epochs(f_raw, new_events, event_id = event_dict, tmin=-1.5, tmax=25,

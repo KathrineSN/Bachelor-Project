@@ -17,7 +17,7 @@ file = 'pair004_20200130_0930.bdf'
 epo1, epo2 = prepocess_long(file)
 
 #%% Bad channel identification
-#bads1 = ['FT7']
+#bads1 = ['PO3']
 #bads2 = ['FC1']
 #epo1 = bad_removal(epo1, bads1)
 #epo2 = bad_removal(epo2, bads2)  
@@ -27,7 +27,7 @@ ica2 = ica_part(epo2)
 #%%  Bad componenet identification of a
 path="C:\\Users\\kathr\\OneDrive\\Documents\\GitHub\\Bachelor-Project\\Resting condition"
 os.chdir(path)
-exclude1 = [0,3]
+exclude1 = [0,4]
 save_name1 = 'epochs_a_long_4_resting.fif'
 epo1_c = ica_removal_long(epo1, ica1, exclude1, save_name1)
 #%%Bad componenet identification of b
@@ -36,6 +36,7 @@ os.chdir(path)
 exclude2 = [0,7]
 save_name2 = 'epochs_b_long_4_resting.fif'
 epo2_c = ica_removal_long(epo2, ica2, exclude2, save_name2)
+df_b_c = before_vs_after_ICA(epo1, epo2, epo1_c, epo2_c)
 
 #%% Preprocessing of short epochs
 path="C:\\Users\\kathr\\OneDrive\\Documents\\GitHub\\Bachelor-Project"

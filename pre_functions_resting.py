@@ -346,5 +346,81 @@ def ica_removal_short(epo1, epo2, ica1, ica2, exclude_list1, exclude_list2, save
     epo_cleaned1.save(save_name1, overwrite = True)
     epo_cleaned2.save(save_name2, overwrite = True)
     
-    return epo_cleaned1, epo_cleaned2   
+    return epo_cleaned1, epo_cleaned2  
+
+def ICA_result(df_afterICA, df_beforeICA, start, length, chan_start, chan_end):
+    
+    montage = mne.channels.make_standard_montage("biosemi64")
+    new_ch_names = montage.ch_names
+    
+    signals_after = []
+    signals_before = []
+    for i in range(len(new_ch_names)):
+        
+        df_afterICA = df_afterICA.iloc[start:]
+        df_beforeICA = df_beforeICA.iloc[start:]
+
+        #t = df_afterICA.loc[(df_afterICA['time'] >= start) & (df_afterICA['time'] <= stop)]
+        t = df_afterICA[['time']].head(length)
+        #signals_after.append(df_afterICA.loc[(df_afterICA[new_ch_names[i]] >= start) & (df_afterICA[new_ch_names[i]] <= stop)])
+        #signals_before.append(df_beforeICA.loc[(df_beforeICA[new_ch_names[i]] >= start) & (df_beforeICA[new_ch_names[i]] <= stop)])
+
+        signals_after.append(df_afterICA[[new_ch_names[i]]].head(length))
+        signals_before.append(df_beforeICA[[new_ch_names[i]]].head(length))
+
+    print(df_afterICA)
+    #print(t[len(t)-1])
+    
+    fig = plt.figure()
+    no_chan = chan_end-chan_start
+    for i in range(no_chan):
+        
+        #temp = i
+        ax = plt.subplot(no_chan,1,i+1)
+        plt.plot(t ,signals_before[chan_start + i], t, signals_after[chan_start + i])
+        plt.subplots_adjust(hspace = .001)
+
+        ax.title.set_visible(False)
+        ax.set_ylabel(new_ch_names[chan_start + i])
+        ax.set_xlabel('time (ms)')
+        
+    
+    #plt.set_xlabel('time')
+    return plt.show()
+
+def before_vs_after_ICA(epochs_a, epochs_b, epochs_a_cleaned, epochs_b_cleaned):
+    df_a = epochs_a.to_data_frame()
+    df_b = epochs_b.to_data_frame()
+    
+    df_clean_a = epochs_a_cleaned.to_data_frame()
+    df_clean_b = epochs_b_cleaned.to_data_frame()
+    
+    #Extracting the 5th coupled epoch
+    df_a_coupled = df_a.loc[df_a['condition'] == 'Coupled']
+    df_clean_a_coupled = df_clean_a.loc[df_clean_a['condition'] == 'Coupled']
+    df_a_coupled_5 = df_a_coupled.loc[df_a_coupled['epoch'] == 5]
+    df_clean_a_coupled_5 = df_clean_a_coupled.loc[df_clean_a_coupled['epoch'] == 5]
+    
+    
+    df_b_coupled = df_b.loc[df_b['condition'] == 'Coupled']
+    df_clean_b_coupled = df_clean_b.loc[df_clean_b['condition'] == 'Coupled']
+    df_b_coupled_5 = df_b_coupled.loc[df_b_coupled['epoch'] == 5]
+    df_clean_b_coupled_5 = df_clean_b_coupled.loc[df_clean_b_coupled['epoch'] == 5]
+    
+    ICA_result(df_clean_a_coupled_5, df_a_coupled_5, 1, 6720, 0, 10)
+    ICA_result(df_clean_a_coupled_5, df_a_coupled_5, 1, 6720, 10, 20)
+    ICA_result(df_clean_a_coupled_5, df_a_coupled_5, 1, 6720, 20, 30)
+    ICA_result(df_clean_a_coupled_5, df_a_coupled_5, 1, 6720, 30, 40)
+    ICA_result(df_clean_a_coupled_5, df_a_coupled_5, 1, 6720, 40, 50)
+    ICA_result(df_clean_a_coupled_5, df_a_coupled_5, 1, 6720, 50, 64)
+    ICA_result(df_clean_b_coupled_5, df_b_coupled_5, 1, 6720, 0, 10)
+    ICA_result(df_clean_b_coupled_5, df_b_coupled_5, 1, 6720, 10, 20)
+    ICA_result(df_clean_b_coupled_5, df_b_coupled_5, 1, 6720, 20, 30)
+    ICA_result(df_clean_b_coupled_5, df_b_coupled_5, 1, 6720, 30, 40)
+    ICA_result(df_clean_b_coupled_5, df_b_coupled_5, 1, 6720, 40, 50)
+    ICA_result(df_clean_b_coupled_5, df_b_coupled_5, 1, 6720, 50, 64)
+    
+    return df_b_coupled
+
+
 
