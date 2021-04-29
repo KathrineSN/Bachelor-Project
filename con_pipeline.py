@@ -95,6 +95,41 @@ load_avg_matrix('coh','theta', 'Leader-Follower', 'short', save = 1)
 #load_avg_matrix('coh','beta', 'Resting', 'short', save = 1)
 #load_avg_matrix('coh','theta', 'Resting', 'short', save = 1)
 #%%
+#3sec epochs
+#ccorr
+load_avg_matrix('ccorr','alpha', 'Coupled', '3sec', save = 1)
+load_avg_matrix('ccorr','beta', 'Coupled', '3sec', save = 1)
+load_avg_matrix('ccorr','theta', 'Coupled', '3sec', save = 1)
+load_avg_matrix('ccorr','alpha', 'Uncoupled', '3sec', save = 1)
+load_avg_matrix('ccorr','beta', 'Uncoupled', '3sec', save = 1)
+load_avg_matrix('ccorr','theta', 'Uncoupled', '3sec', save = 1)
+load_avg_matrix('ccorr','alpha', 'Control', '3sec', save = 1)
+load_avg_matrix('ccorr','beta', 'Control', '3sec', save = 1)
+load_avg_matrix('ccorr','theta', 'Control', 'short', save = 1)
+load_avg_matrix('ccorr','alpha', 'Leader-Follower', 'short', save = 1)
+load_avg_matrix('ccorr','beta', 'Leader-Follower', 'short', save = 1)
+load_avg_matrix('ccorr','theta', 'Leader-Follower', 'short', save = 1)
+#load_avg_matrix('ccorr','alpha', 'Resting', 'short', save = 1)
+#load_avg_matrix('ccorr','beta', 'Resting', 'short', save = 1)
+#load_avg_matrix('ccorr','theta', 'Resting', 'short', save = 1)
+#%%
+#coh
+load_avg_matrix('coh','alpha', 'Coupled', 'short', save = 1)
+load_avg_matrix('coh','beta', 'Coupled', 'short', save = 1)
+load_avg_matrix('coh','theta', 'Coupled', 'short', save = 1)
+load_avg_matrix('coh','alpha', 'Uncoupled', 'short', save = 1)
+load_avg_matrix('coh','beta', 'Uncoupled', 'short', save = 1)
+load_avg_matrix('coh','theta', 'Uncoupled', 'short', save = 1)
+load_avg_matrix('coh','alpha', 'Control', 'short', save = 1)
+load_avg_matrix('coh','beta', 'Control', 'short', save = 1)
+load_avg_matrix('coh','theta', 'Control', 'short', save = 1)
+load_avg_matrix('coh','alpha', 'Leader-Follower', 'short', save = 1)
+load_avg_matrix('coh','beta', 'Leader-Follower', 'short', save = 1)
+load_avg_matrix('coh','theta', 'Leader-Follower', 'short', save = 1)
+#load_avg_matrix('coh','alpha', 'Resting', 'short', save = 1)
+#load_avg_matrix('coh','beta', 'Resting', 'short', save = 1)
+#load_avg_matrix('coh','theta', 'Resting', 'short', save = 1)
+#%%
 #Long epochs
 #ccorr
 plt.close('all')

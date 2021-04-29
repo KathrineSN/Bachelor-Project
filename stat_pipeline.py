@@ -28,6 +28,10 @@ stat_ccorr_cou_con_alpha = permutation_test('ccorr', 'Coupled', 'Control', 'alph
 stat_ccorr_cou_con_beta = permutation_test('ccorr', 'Coupled', 'Control', 'beta', 'long')
 stat_ccorr_cou_con_theta = permutation_test('ccorr', 'Coupled', 'Control', 'theta', 'long')
 
+stat_ccorr_cou_con_alpha_3s = permutation_test('ccorr', 'Coupled', 'Control', 'alpha', '3sec') 
+stat_ccorr_cou_con_beta_3s = permutation_test('ccorr', 'Coupled', 'Control', 'beta', '3sec')
+stat_ccorr_cou_con_theta_3s = permutation_test('ccorr', 'Coupled', 'Control', 'theta', '3sec')
+
 #%% uncoupled vs. control 
 stat_ccorr_unc_con_alpha_s = permutation_test('ccorr', 'Uncoupled', 'Control', 'alpha', 'short')
 stat_ccorr_unc_con_beta_s = permutation_test('ccorr', 'Uncoupled', 'Control', 'beta', 'short')
@@ -36,6 +40,16 @@ stat_ccorr_unc_con_theta_s = permutation_test('ccorr', 'Uncoupled', 'Control', '
 stat_ccorr_unc_con_alpha = permutation_test('ccorr', 'Uncoupled', 'Control', 'alpha', 'long') # something significant...
 stat_ccorr_unc_con_beta = permutation_test('ccorr', 'Uncoupled', 'Control', 'beta', 'long')
 stat_ccorr_unc_con_theta = permutation_test('ccorr', 'Uncoupled', 'Control', 'theta', 'long')
+
+stat_ccorr_unc_con_alpha_3s = permutation_test('ccorr', 'Uncoupled', 'Control', 'alpha', '3sec')
+stat_ccorr_unc_con_beta_3s = permutation_test('ccorr', 'Uncoupled', 'Control', 'beta', '3sec')
+stat_ccorr_unc_con_theta_3s = permutation_test('ccorr', 'Uncoupled', 'Control', 'theta', '3sec')
+stat_ccorr_cou_LF_alpha_3s = permutation_test('ccorr', 'Leader-Follower', 'Coupled', 'alpha', '3sec')
+stat_ccorr_cou_LF_beta_3s = permutation_test('ccorr', 'Leader-Follower', 'Coupled', 'beta', '3sec')
+stat_ccorr_cou_LF_theta_3s = permutation_test('ccorr', 'Leader-Follower', 'Coupled', 'theta', '3sec')
+stat_ccorr_cou_unc_alpha_3s = permutation_test('ccorr', 'Uncoupled', 'Coupled', 'alpha', '3sec')
+stat_ccorr_cou_unc_beta_3s = permutation_test('ccorr', 'Uncoupled', 'Coupled', 'beta', '3sec')
+stat_ccorr_cou_unc_theta_3s = permutation_test('ccorr', 'Uncoupled', 'Coupled', 'theta', '3sec')
 
 #%% coupled vs. LF
 stat_ccorr_cou_LF_alpha_s = permutation_test('ccorr', 'Leader-Follower', 'Coupled', 'alpha', 'short')
@@ -46,14 +60,22 @@ stat_ccorr_cou_LF_alpha = permutation_test('ccorr', 'Leader-Follower', 'Coupled'
 stat_ccorr_cou_LF_beta = permutation_test('ccorr', 'Leader-Follower', 'Coupled', 'beta', 'long')
 stat_ccorr_cou_LF_theta = permutation_test('ccorr', 'Leader-Follower', 'Coupled', 'theta', 'long')
 
+stat_ccorr_cou_LF_alpha_3s = permutation_test('ccorr', 'Leader-Follower', 'Coupled', 'alpha', '3sec')
+stat_ccorr_cou_LF_beta_3s = permutation_test('ccorr', 'Leader-Follower', 'Coupled', 'beta', '3sec')
+stat_ccorr_cou_LF_theta_3s = permutation_test('ccorr', 'Leader-Follower', 'Coupled', 'theta', '3sec')
+
 #%% coupled vs. uncoupled
 stat_ccorr_cou_unc_alpha_s = permutation_test('ccorr', 'Uncoupled', 'Coupled', 'alpha', 'short')
 stat_ccorr_cou_unc_beta_s = permutation_test('ccorr', 'Uncoupled', 'Coupled', 'beta', 'short')
-notestat_ccorr_cou_unc_theta_s = permutation_test('ccorr', 'Uncoupled', 'Coupled', 'theta', 'short')
+stat_ccorr_cou_unc_theta_s = permutation_test('ccorr', 'Uncoupled', 'Coupled', 'theta', 'short')
 
 stat_ccorr_cou_unc_alpha = permutation_test('ccorr', 'Uncoupled', 'Coupled', 'alpha', 'long')
 stat_ccorr_cou_unc_beta = permutation_test('ccorr', 'Uncoupled', 'Coupled', 'beta', 'long')
 stat_ccorr_cou_unc_theta = permutation_test('ccorr', 'Uncoupled', 'Coupled', 'theta', 'long')
+
+stat_ccorr_cou_unc_alpha_3s = permutation_test('ccorr', 'Uncoupled', 'Coupled', 'alpha', '3sec')
+stat_ccorr_cou_unc_beta_3s = permutation_test('ccorr', 'Uncoupled', 'Coupled', 'beta', '3sec')
+stat_ccorr_cou_unc_theta_3s = permutation_test('ccorr', 'Uncoupled', 'Coupled', 'theta', '3sec')
 
 #%% control vs. resting
 stat_ccorr_con_res_alpha_s = permutation_test('ccorr', 'Resting', 'Control', 'alpha', 'short')
@@ -69,7 +91,7 @@ stat_ccorr_con_res_theta = permutation_test('ccorr', 'Resting', 'Control', 'thet
 #    con_names = pickle.load(fp)
     
 # Check if there are significant clusters
-con = stat_coh_cou_unc_beta
+con = stat_ccorr_cou_unc_beta
 #con = stat_ccorr_unc_con_alpha
 pv = con[2]
 #pv = stat_ccorr_unc_con_alpha[2]
@@ -143,8 +165,12 @@ stat_coh_cou_con_beta_s = permutation_test('coh', 'Coupled', 'Control', 'beta', 
 stat_coh_cou_con_theta_s = permutation_test('coh', 'Coupled', 'Control', 'theta', 'short')
 
 stat_coh_cou_con_alpha = permutation_test('coh', 'Coupled', 'Control', 'alpha', 'long') # something significant...
-stat_coh_cou_con_beta = permutation_test('coh', 'Coupled', 'Control', 'beta', 'long')
+stat_coh_cou_con_beta = permutation_test('coh', 'Coupled', 'Control', 'beta', 'long') #sig
 stat_coh_cou_con_theta = permutation_test('coh', 'Coupled', 'Control', 'theta', 'long')
+
+stat_coh_cou_con_alpha_3s = permutation_test('coh', 'Coupled', 'Control', 'alpha', '3sec')
+stat_coh_cou_con_beta_3s = permutation_test('coh', 'Coupled', 'Control', 'beta', '3sec')
+stat_coh_cou_con_theta_3s = permutation_test('coh', 'Coupled', 'Control', 'theta', '3sec')
 
 #%% uncoupled vs. control 
 stat_coh_unc_con_alpha_s = permutation_test('coh', 'Uncoupled', 'Control', 'alpha', 'short')
@@ -155,6 +181,10 @@ stat_coh_unc_con_alpha = permutation_test('coh', 'Uncoupled', 'Control', 'alpha'
 stat_coh_unc_con_beta = permutation_test('coh', 'Uncoupled', 'Control', 'beta', 'long')
 stat_coh_unc_con_theta = permutation_test('coh', 'Uncoupled', 'Control', 'theta', 'long')
 
+stat_coh_unc_con_alpha_3s = permutation_test('coh', 'Uncoupled', 'Control', 'alpha', '3sec') 
+stat_coh_unc_con_beta_3s = permutation_test('coh', 'Uncoupled', 'Control', 'beta', '3sec')
+stat_coh_unc_con_theta_3s = permutation_test('coh', 'Uncoupled', 'Control', 'theta', '3sec')
+
 #%% coupled vs. LF
 stat_coh_cou_LF_alpha_s = permutation_test('coh', 'Leader-Follower', 'Coupled', 'alpha', 'short')
 stat_coh_cou_LF_beta_s = permutation_test('coh', 'Leader-Follower', 'Coupled', 'beta', 'short')
@@ -164,14 +194,22 @@ stat_coh_cou_LF_alpha = permutation_test('coh', 'Leader-Follower', 'Coupled', 'a
 stat_coh_cou_LF_beta = permutation_test('coh', 'Leader-Follower', 'Coupled', 'beta', 'long')
 stat_coh_cou_LF_theta = permutation_test('coh', 'Leader-Follower', 'Coupled', 'theta', 'long')
 
+stat_coh_cou_LF_alpha_3s = permutation_test('coh', 'Leader-Follower', 'Coupled', 'alpha', '3sec') #sig
+stat_coh_cou_LF_beta_3s = permutation_test('coh', 'Leader-Follower', 'Coupled', 'beta', '3sec') #sig
+stat_coh_cou_LF_theta_3s = permutation_test('coh', 'Leader-Follower', 'Coupled', 'theta', '3sec')
+
 #%% coupled vs. uncoupled
 stat_coh_cou_unc_alpha_s = permutation_test('coh', 'Uncoupled', 'Coupled', 'alpha', 'short')
 stat_coh_cou_unc_beta_s = permutation_test('coh', 'Uncoupled', 'Coupled', 'beta', 'short')
 stat_coh_cou_unc_theta_s = permutation_test('coh', 'Uncoupled', 'Coupled', 'theta', 'short')
 
 stat_coh_cou_unc_alpha = permutation_test('coh', 'Uncoupled', 'Coupled', 'alpha', 'long')
-stat_coh_cou_unc_beta = permutation_test('coh', 'Uncoupled', 'Coupled', 'beta', 'long')
+stat_coh_cou_unc_beta = permutation_test('coh', 'Uncoupled', 'Coupled', 'beta', 'long') #sig
 stat_coh_cou_unc_theta = permutation_test('coh', 'Uncoupled', 'Coupled', 'theta', 'long')
+
+stat_coh_cou_unc_alpha_3s = permutation_test('coh', 'Uncoupled', 'Coupled', 'alpha', '3sec')
+stat_coh_cou_unc_beta_3s = permutation_test('coh', 'Uncoupled', 'Coupled', 'beta', '3sec')
+stat_coh_cou_unc_theta_3s = permutation_test('coh', 'Uncoupled', 'Coupled', 'theta', '3sec')
 
 #%% control vs. resting
 stat_coh_con_res_alpha_s = permutation_test('coh', 'Resting', 'Control', 'alpha', 'short')
@@ -187,7 +225,7 @@ stat_coh_con_res_theta = permutation_test('coh', 'Resting', 'Control', 'theta', 
 #    con_names = pickle.load(fp)
     
 # Check if there are significant clusters
-con = stat_coh_cou_unc_beta
+con = stat_coh_cou_LF_alpha_3s[0]
 #con = stat_ccorr_unc_con_alpha
 pv = con[2]
 #pv = stat_ccorr_unc_con_alpha[2]
@@ -224,7 +262,7 @@ path="C:\\Users\\kathr\\OneDrive\\Documents\\GitHub\\Bachelor-Project"
 os.chdir(path)
 #plt.title('uncoupled-control alpha long')
 hypyp.viz.viz_2D_topomap_inter(epo1, epo2, m_init, threshold='auto', steps=10, lab=True)
-plt.title('coupled-control beta long')
+plt.title('coupled-LF alpha 3 seconds')
 #hypyp.viz.viz_3D_inter(epo1, epo2, m_init, threshold='auto', steps=10, lab=False)
 
 

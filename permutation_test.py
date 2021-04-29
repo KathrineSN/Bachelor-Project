@@ -89,6 +89,29 @@ def permutation_test(c_measure, cond1, cond2, freq, length):
                         c = np.triu(np.load(f))
                         c = c[c != 0]
                         c2.append(c)
+                        
+        if length == '3sec':
+            path="C:\\Users\\kathr\\OneDrive\\Documents\\GitHub\\Bachelor-Project\\Connectivity matrices\\ccorr"
+            os.chdir(path)
+            for i in pairs:
+                files = os.listdir(path)
+                for f in files:
+                    
+                    if f.startswith(c_measure + '_' + i + '_' + freq + '_' + cond1 + '_' + length + '.npy'):
+                        # Avoiding unnessecary tests by only using upper triangle values in a list
+                        c = np.triu(np.load(f))
+                        c = c[c != 0]
+                        c1.append(c)
+                            
+            for i in pairs:
+                files = os.listdir(path)
+                for f in files:
+                    
+                    if f.startswith(c_measure + '_' + i + '_' + freq + '_' + cond2 + '_' + length + '.npy'):
+                        c = np.triu(np.load(f))
+                        c = c[c != 0]
+                        print(str(f))
+                        c2.append(c)
         
         data = [np.array(c1), np.array(c2)]
         
@@ -148,7 +171,31 @@ def permutation_test(c_measure, cond1, cond2, freq, length):
                         c = c[c != 0]
                         c2.append(c)
         
+        if length == '3sec':
+            path="C:\\Users\\kathr\\OneDrive\\Documents\\GitHub\\Bachelor-Project\\Connectivity matrices\\coh"
+            os.chdir(path)
+            for i in pairs:
+                files = os.listdir(path)
+                for f in files:
+                    
+                    if f.startswith(c_measure + '_' + i + '_' + freq + '_' + cond1 + '_' + length + '.npy'):
+                        # Avoiding unnessecary tests by only using upper triangle values in a list
+                        c = np.triu(np.load(f))
+                        c = c[c != 0]
+                        c1.append(c)
+                            
+            for i in pairs:
+                files = os.listdir(path)
+                for f in files:
+                    
+                    if f.startswith(c_measure + '_' + i + '_' + freq + '_' + cond2 + '_' + length + '.npy'):
+                        c = np.triu(np.load(f))
+                        c = c[c != 0]
+                        print(str(f))
+                        c2.append(c)
+        
         data = [np.array(c1), np.array(c2)]
+        print(len(data[0]))
         '''
         statscondCluster = stats.statscondCluster(data=data,
                                           freqs_mean=np.arange(4, 25),

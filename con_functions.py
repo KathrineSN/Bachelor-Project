@@ -946,6 +946,9 @@ def load_avg_matrix(con_measure, freq_band, cond, length, plot = 1, sep = 0, sav
                 
                 if f.startswith(con_measure + '_' + i + freq_band + '_' + cond + '_' + length + '.npy'):
                     matrices.append(np.load(f))
+                if length == '3sec':
+                    if f.startswith(con_measure + '_' + i + '_' + freq_band + '_' + cond + '_' + length + '.npy'):
+                        matrices.append(np.load(f))
     
     #print(len(matrices))
     mat_sum = np.zeros_like(matrices[0])
@@ -988,10 +991,11 @@ def load_avg_matrix(con_measure, freq_band, cond, length, plot = 1, sep = 0, sav
         if save:
                 if length == 'long':
                     fig.savefig('avg_matrices/' + con_measure + '/long/' + cond + '_' + freq_band + '_' + length + '.png')
-                else:
-                    print('saving...')
-                    fig.savefig('avg_matrices/' + con_measure + '/' + cond + '_' + freq_band + '_' + length + '.png')
-    
+                if length == 'short':
+                    #print('saving...')
+                    fig.savefig('avg_matrices/' + con_measure + '/short/' + cond + '_' + freq_band + '_' + length + '.png')
+                if length == '3sec':
+                    fig.savefig('avg_matrices/' + con_measure + '/3sec/' + cond + '_' + freq_band + '_' + length + '.png')
     if sep:
         for i in range(len(matrices)):
             fig = plt.figure()
