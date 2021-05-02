@@ -25,11 +25,11 @@ from con_functions import *
 #epochs_a = mne.read_epochs('epochs_a_long_3.fif')
 #epochs_b = mne.read_epochs('epochs_b_long_3.fif')
 
-epochs_a_3s = mne.read_epochs('epochs_a_3sec_3.fif')
-epochs_b_3s = mne.read_epochs('epochs_b_3sec_3.fif')
+#epochs_a_3s = mne.read_epochs('epochs_a_3sec_3.fif')
+#epochs_b_3s = mne.read_epochs('epochs_b_3sec_3.fif')
 
-#epochs_a_s = mne.read_epochs('epochs_a_short_18.fif')
-#epochs_b_s = mne.read_epochs('epochs_b_short_18.fif')
+epochs_a_s = mne.read_epochs('epochs_a_short_18.fif')
+epochs_b_s = mne.read_epochs('epochs_b_short_18.fif')
 
 #%% defining drop lists
 #drop_list_3 = [91, 108, 300, 301, 341, 351, 354, 355, 356, 381, 382, 383, 397, 398, 416, 442, 443, 473, 474, 476, 477, 497, 498, 502, 507, 508, 509, 510, 511, 512, 513, 514, 528, 530, 550, 551, 553, 554, 555, 556, 557, 559, 561, 578, 585, 586, 587, 588, 589, 603, 604, 622, 632, 654, 658, 660, 662, 663, 664, 669, 675, 677, 678, 683, 684, 686, 720, 721, 723, 724, 725, 727, 908, 967, 974, 975, 976, 980, 1011, 1027, 1031, 1033, 1034, 1036, 1041, 1042, 1072, 1073, 1125, 1126, 1145, 1146, 1147, 1148, 1260, 1271, 1279, 1292, 1303, 1314, 1315, 1329, 1338, 1339, 1340, 1341, 1347, 1349, 1351, 1358, 1362, 1363, 1364, 1365, 1366, 1367, 1368, 1369, 1378, 1395, 1396, 1408, 1439, 1463, 1486, 1514, 1515, 1517, 1519, 1520, 1521, 1522, 1523, 1628, 1630, 1631, 1632, 1633, 1643, 1655, 1656, 1657, 1660, 1661, 1662, 1663]
@@ -50,14 +50,14 @@ epochs_b_3s = mne.read_epochs('epochs_b_3sec_3.fif')
 #%% Circular correlation
        
 #theta, alpha, beta, angle, complex_signal, epo_a_cleaned, epo_a = ccorr(epochs_a, epochs_b, 'pair0014', 'long', drop_list = [])
-#theta, alpha, beta, angle, complex_signal, epo_a_cleaned, epo_a = ccorr(epochs_a_s, epochs_b_s, 'pair0018', 'short', drop_list = [])
-theta, alpha, beta, angle, complex_signal, epo_a_cleaned, epo_a = ccorr(epochs_a_3s, epochs_b_3s, 'pair003', '3sec', drop_list = [])
+theta, alpha, beta, angle, complex_signal, epo_a_cleaned, epo_a = ccorr(epochs_a_s, epochs_b_s, 'pair0018', 'short', drop_list = [])
+#theta, alpha, beta, angle, complex_signal, epo_a_cleaned, epo_a = ccorr(epochs_a_3s, epochs_b_3s, 'pair003', '3sec', drop_list = [])
 
 
 #%% Coherence
 
 #theta, alpha, beta, amp, complex_signal, epo_a, epo_a_cleaned = coh(epochs_a, epochs_b, 'pair0014', 'long', drop_list = [])
-theta, alpha, beta, amp, complex_signal_coh, epo_a_coh, epo_a_cleaned_coh = coh(epochs_a_s, epochs_b_s, 'pair0018', 'short', drop_list = [])
+theta, alpha, beta, amp, complex_signal_coh, epo_a_coh, epo_a_cleaned_coh = coh(epochs_a_3s, epochs_b_3s, 'pair003', '3sec', drop_list = [])
 
 #%% Avg. matrices
 #Short epochs
@@ -105,27 +105,27 @@ load_avg_matrix('ccorr','beta', 'Uncoupled', '3sec', save = 1)
 load_avg_matrix('ccorr','theta', 'Uncoupled', '3sec', save = 1)
 load_avg_matrix('ccorr','alpha', 'Control', '3sec', save = 1)
 load_avg_matrix('ccorr','beta', 'Control', '3sec', save = 1)
-load_avg_matrix('ccorr','theta', 'Control', 'short', save = 1)
-load_avg_matrix('ccorr','alpha', 'Leader-Follower', 'short', save = 1)
-load_avg_matrix('ccorr','beta', 'Leader-Follower', 'short', save = 1)
-load_avg_matrix('ccorr','theta', 'Leader-Follower', 'short', save = 1)
+load_avg_matrix('ccorr','theta', 'Control', '3sec', save = 1)
+load_avg_matrix('ccorr','alpha', 'Leader-Follower', '3sec', save = 1)
+load_avg_matrix('ccorr','beta', 'Leader-Follower', '3sec', save = 1)
+load_avg_matrix('ccorr','theta', 'Leader-Follower', '3sec', save = 1)
 #load_avg_matrix('ccorr','alpha', 'Resting', 'short', save = 1)
 #load_avg_matrix('ccorr','beta', 'Resting', 'short', save = 1)
 #load_avg_matrix('ccorr','theta', 'Resting', 'short', save = 1)
 #%%
 #coh
-load_avg_matrix('coh','alpha', 'Coupled', 'short', save = 1)
-load_avg_matrix('coh','beta', 'Coupled', 'short', save = 1)
-load_avg_matrix('coh','theta', 'Coupled', 'short', save = 1)
-load_avg_matrix('coh','alpha', 'Uncoupled', 'short', save = 1)
-load_avg_matrix('coh','beta', 'Uncoupled', 'short', save = 1)
-load_avg_matrix('coh','theta', 'Uncoupled', 'short', save = 1)
-load_avg_matrix('coh','alpha', 'Control', 'short', save = 1)
-load_avg_matrix('coh','beta', 'Control', 'short', save = 1)
-load_avg_matrix('coh','theta', 'Control', 'short', save = 1)
-load_avg_matrix('coh','alpha', 'Leader-Follower', 'short', save = 1)
-load_avg_matrix('coh','beta', 'Leader-Follower', 'short', save = 1)
-load_avg_matrix('coh','theta', 'Leader-Follower', 'short', save = 1)
+load_avg_matrix('coh','alpha', 'Coupled', '3sec', save = 1)
+load_avg_matrix('coh','beta', 'Coupled', '3sec', save = 1)
+load_avg_matrix('coh','theta', 'Coupled', '3sec', save = 1)
+load_avg_matrix('coh','alpha', 'Uncoupled', '3sec', save = 1)
+load_avg_matrix('coh','beta', 'Uncoupled', '3sec', save = 1)
+load_avg_matrix('coh','theta', 'Uncoupled', '3sec', save = 1)
+load_avg_matrix('coh','alpha', 'Control', '3sec', save = 1)
+load_avg_matrix('coh','beta', 'Control', '3sec', save = 1)
+load_avg_matrix('coh','theta', 'Control', '3sec', save = 1)
+load_avg_matrix('coh','alpha', 'Leader-Follower', '3sec', save = 1)
+load_avg_matrix('coh','beta', 'Leader-Follower', '3sec', save = 1)
+load_avg_matrix('coh','theta', 'Leader-Follower', '3sec', save = 1)
 #load_avg_matrix('coh','alpha', 'Resting', 'short', save = 1)
 #load_avg_matrix('coh','beta', 'Resting', 'short', save = 1)
 #load_avg_matrix('coh','theta', 'Resting', 'short', save = 1)
@@ -305,39 +305,51 @@ path="C:\\Users\\kathr\\OneDrive\\Documents\\Github\\Bachelor-Project"
 os.chdir(path)
 coupled_beta = load_avg_matrix('coh', 'beta', 'Coupled', 'long', save = 1)
 control_beta = load_avg_matrix('coh', 'beta', 'Control', 'long', save = 1)
-coupled_beta_s = load_avg_matrix('coh', 'beta', 'Coupled', 'short', save = 1)
-LF_beta_s = load_avg_matrix('coh', 'beta', 'Leader-Follower', 'short', save = 1)
 uncoupled_beta = load_avg_matrix('coh', 'beta', 'Uncoupled', 'long', save = 1)
+coupled_beta_3s = load_avg_matrix('coh', 'beta', 'Coupled', '3sec', save = 1)
+LF_beta_3s = load_avg_matrix('coh', 'beta', 'Leader-Follower', '3sec', save = 1)
+coupled_alpha_3s = load_avg_matrix('coh', 'alpha', 'Coupled', '3sec', save = 1)
+LF_alpha_3s = load_avg_matrix('coh', 'alpha', 'Leader-Follower', '3sec', save = 1)
 
 contrast1 = coupled_beta-control_beta
-contrast2 = coupled_beta_s-LF_beta_s
+contrast2 = coupled_beta_3s-LF_beta_3s
 contrast3 = coupled_beta-uncoupled_beta
+contrast4 = coupled_alpha_3s-LF_alpha_3s
 
 fig = plt.figure()
 name = 'coherence coupled - control contrast (beta long)'
 plt.title(name)
 plt.imshow(contrast1,cmap=plt.cm.seismic)
-plt.clim(-0.05,0.05)
+plt.clim(-0.02,0.02)
 plt.colorbar()
 plt.show()
-fig.savefig('avg_matrices/contrast/coh/'+ name +'.png')
+fig.savefig('Visualization of significant clusters (12 pairs)/contrasts/'+ name +'.png')
 
 fig = plt.figure()
-name = 'coherence coupled - LF contrast (beta short)'
+name = 'coherence coupled - LF contrast (beta 3 sec.)'
 plt.title(name)
 plt.imshow(contrast2,cmap=plt.cm.seismic)
 plt.clim(-0.05,0.05)
 plt.colorbar()
 plt.show()
-fig.savefig('avg_matrices/contrast/coh/' + name +'.png')
+fig.savefig('Visualization of significant clusters (12 pairs)/contrasts/' + name +'.png')
 
 fig = plt.figure()
 name = 'coherence coupled - uncoupled contrast (beta long)'
 plt.title(name)
 plt.imshow(contrast3,cmap=plt.cm.seismic)
+plt.clim(-0.02,0.02)
+plt.colorbar()
+plt.show()
+fig.savefig('Visualization of significant clusters (12 pairs)/contrasts/' + name +'.png')
+
+fig = plt.figure()
+name = 'coherence coupled - LF contrast (alpha 3 sec.)'
+plt.title(name)
+plt.imshow(contrast4,cmap=plt.cm.seismic)
 plt.clim(-0.05,0.05)
 plt.colorbar()
 plt.show()
-fig.savefig('avg_matrices/contrast/coh/' + name +'.png')
+fig.savefig('Visualization of significant clusters (12 pairs)/contrasts/' + name +'.png')
 
 

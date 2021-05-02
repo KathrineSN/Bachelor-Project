@@ -44,12 +44,6 @@ stat_ccorr_unc_con_theta = permutation_test('ccorr', 'Uncoupled', 'Control', 'th
 stat_ccorr_unc_con_alpha_3s = permutation_test('ccorr', 'Uncoupled', 'Control', 'alpha', '3sec')
 stat_ccorr_unc_con_beta_3s = permutation_test('ccorr', 'Uncoupled', 'Control', 'beta', '3sec')
 stat_ccorr_unc_con_theta_3s = permutation_test('ccorr', 'Uncoupled', 'Control', 'theta', '3sec')
-stat_ccorr_cou_LF_alpha_3s = permutation_test('ccorr', 'Leader-Follower', 'Coupled', 'alpha', '3sec')
-stat_ccorr_cou_LF_beta_3s = permutation_test('ccorr', 'Leader-Follower', 'Coupled', 'beta', '3sec')
-stat_ccorr_cou_LF_theta_3s = permutation_test('ccorr', 'Leader-Follower', 'Coupled', 'theta', '3sec')
-stat_ccorr_cou_unc_alpha_3s = permutation_test('ccorr', 'Uncoupled', 'Coupled', 'alpha', '3sec')
-stat_ccorr_cou_unc_beta_3s = permutation_test('ccorr', 'Uncoupled', 'Coupled', 'beta', '3sec')
-stat_ccorr_cou_unc_theta_3s = permutation_test('ccorr', 'Uncoupled', 'Coupled', 'theta', '3sec')
 
 #%% coupled vs. LF
 stat_ccorr_cou_LF_alpha_s = permutation_test('ccorr', 'Leader-Follower', 'Coupled', 'alpha', 'short')
@@ -205,6 +199,9 @@ stat_coh_cou_unc_theta_s = permutation_test('coh', 'Uncoupled', 'Coupled', 'thet
 
 stat_coh_cou_unc_alpha = permutation_test('coh', 'Uncoupled', 'Coupled', 'alpha', 'long')
 stat_coh_cou_unc_beta = permutation_test('coh', 'Uncoupled', 'Coupled', 'beta', 'long') #sig
+#%%
+stat_coh_cou_unc_beta_reversed = permutation_test('coh', 'Coupled', 'Uncoupled', 'beta', 'long') #sig
+#%%
 stat_coh_cou_unc_theta = permutation_test('coh', 'Uncoupled', 'Coupled', 'theta', 'long')
 
 stat_coh_cou_unc_alpha_3s = permutation_test('coh', 'Uncoupled', 'Coupled', 'alpha', '3sec')
@@ -225,7 +222,7 @@ stat_coh_con_res_theta = permutation_test('coh', 'Resting', 'Control', 'theta', 
 #    con_names = pickle.load(fp)
     
 # Check if there are significant clusters
-con = stat_coh_cou_LF_alpha_3s[0]
+con = stat_coh_cou_unc_beta[0]
 #con = stat_ccorr_unc_con_alpha
 pv = con[2]
 #pv = stat_ccorr_unc_con_alpha[2]
@@ -262,13 +259,38 @@ path="C:\\Users\\kathr\\OneDrive\\Documents\\GitHub\\Bachelor-Project"
 os.chdir(path)
 #plt.title('uncoupled-control alpha long')
 hypyp.viz.viz_2D_topomap_inter(epo1, epo2, m_init, threshold='auto', steps=10, lab=True)
-plt.title('coupled-LF alpha 3 seconds')
+plt.title('coupled-LF beta 3 seconds')
 #hypyp.viz.viz_3D_inter(epo1, epo2, m_init, threshold='auto', steps=10, lab=False)
 
+#%% Prep for barplot
+m_logic = m_init != 0
+uncoupled = load_avg_matrix('coh','beta', 'Uncoupled', 'long', save = 1)
+coupled = load_avg_matrix('coh','beta', 'Coupled', 'long', save = 1) 
 
+#%% Barplot
+from con_functions import load_avg_matrix
+import matplotlib.pyplot as plt
+import seaborn as sns
+import pandas as pd
 
+uncoupled_select = uncoupled[m_logic]
+coupled_select = coupled[m_logic]
+con_values = np.concatenate((uncoupled_select,coupled_select), axis = 0)
+con_names = np.concatenate((np.repeat('Uncoupled', 44),np.repeat('Coupled', 44)), axis = 0)
 
+d = {'Connectivity': con_values, 'Condition': con_names}
+df = pd.DataFrame(data = d)
 
+#tips = sns.load_dataset("tips")
 
+sns.barplot(x='Condition', y='Connectivity', data=df, capsize=.1, ci="sd")
+sns.swarmplot(x='Condition', y='Connectivity', data=df, color="0", alpha=.35)
+
+plt.show()
+
+#%%
+
+m_init_test = -m_init
+hypyp.viz.viz_2D_topomap_inter(epo1, epo2, m_init_test, threshold='auto', steps=10, lab=True)
 
 

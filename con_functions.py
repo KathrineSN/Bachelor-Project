@@ -9,6 +9,7 @@ import mne
 import numpy as np
 import pandas as pd
 from matplotlib import pyplot as plt
+from matplotlib import pylab as plab
 from hypyp import prep 
 from hypyp import analyses
 from hypyp import stats
@@ -960,6 +961,8 @@ def load_avg_matrix(con_measure, freq_band, cond, length, plot = 1, sep = 0, sav
 
     path="C:\\Users\\kathr\\OneDrive\\Documents\\GitHub\\Bachelor-Project"
     os.chdir(path)
+    montage = mne.channels.make_standard_montage("biosemi64")
+    new_ch_names = montage.ch_names
     if plot:
         fig = plt.figure()
         plt.title(cond + ' ' + freq_band + ' ' + length)
@@ -981,11 +984,16 @@ def load_avg_matrix(con_measure, freq_band, cond, length, plot = 1, sep = 0, sav
                     plt.clim(0.27,0.33)
                 else:
                     plt.clim(0.27,0.33)        
-        else:
+        if length == 'short':
             if con_measure == 'ccorr':
                 plt.clim(0,0.05)
             else:
                 plt.clim(0,0.1)
+        if length == '3sec':
+            if con_measure == 'ccorr':
+                plt.clim(0,0.15)
+            else:
+                plt.clim(0.15,0.25)
         plt.colorbar()
         plt.show()
         if save:

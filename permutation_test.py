@@ -195,6 +195,7 @@ def permutation_test(c_measure, cond1, cond2, freq, length):
                         c2.append(c)
         
         data = [np.array(c1), np.array(c2)]
+        #data = [np.array(c1), np.array(c1)]
         print(len(data[0]))
         '''
         statscondCluster = stats.statscondCluster(data=data,
@@ -207,7 +208,10 @@ def permutation_test(c_measure, cond1, cond2, freq, length):
     
 
     #statscondCluster = mne.stats.permutation_cluster_test(X = data, threshold = 2.2281, n_permutations = 5000, tail = 0, stat_fun = ttest_no_p, adjacency = adj)
-    statscondCluster = mne.stats.permutation_cluster_test(X = data, threshold =  2.074, n_permutations = 5000, tail = 0, stat_fun = ttest_no_p, adjacency = adj)
+    #statscondCluster = mne.stats.permutation_cluster_test(X = data, threshold =  2.074, n_permutations = 5000, tail = 0, stat_fun = ttest_no_p, adjacency = adj)
+    statscondCluster = mne.stats.permutation_cluster_test(X = data, threshold =  2.074, n_permutations = 5000, tail = 0, stat_fun = mne.stats.ttest_ind_no_p, adjacency = adj)
+    #statscondCluster = mne.stats.permutation_cluster_test(X = data, n_permutations = 5000, tail = 0, adjacency = adj)
+
 
     print('test..............')
     print(len(data))
