@@ -8,16 +8,6 @@ Created on Mon Mar 15 19:55:57 2021
 import os
 import mne
 import numpy as np
-import pandas as pd
-import seaborn as sns
-from matplotlib import pyplot as plt
-from hypyp import prep 
-from hypyp import analyses
-from hypyp import stats
-from hypyp import viz
-from collections import Counter
-from collections import OrderedDict
-from itertools import groupby
 import scipy
 
 path="C:\\Users\\kathr\\OneDrive\\Documents\\GitHub\\Bachelor-Project"
@@ -195,7 +185,7 @@ def permutation_test(c_measure, cond1, cond2, freq, length):
                         c2.append(c)
         
         data = [np.array(c1), np.array(c2)]
-        #data = [np.array(c1), np.array(c1)]
+        
         print(len(data[0]))
         '''
         statscondCluster = stats.statscondCluster(data=data,
@@ -211,6 +201,7 @@ def permutation_test(c_measure, cond1, cond2, freq, length):
     #statscondCluster = mne.stats.permutation_cluster_test(X = data, threshold =  2.074, n_permutations = 5000, tail = 0, stat_fun = ttest_no_p, adjacency = adj)
     statscondCluster = mne.stats.permutation_cluster_test(X = data, threshold =  2.074, n_permutations = 5000, tail = 0, stat_fun = mne.stats.ttest_ind_no_p, adjacency = adj)
     #statscondCluster = mne.stats.permutation_cluster_test(X = data, n_permutations = 5000, tail = 0, adjacency = adj)
+    #statscondCluster = mne.stats.permutation_cluster_test(X = data, n_permutations = 5000, tail = 0)
 
 
     print('test..............')

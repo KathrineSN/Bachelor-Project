@@ -47,7 +47,7 @@ ccorr_values = np.array([np.mean(coupled_1sec_ccorr), np.mean(coupled_3sec_ccorr
 epo_length = np.array([1,3,6,25])
 
 plt.figure(figsize=(10, 3))
-plt.suptitle('Connectivity value variability for one pair')
+plt.suptitle('Connectivity Value Variability for One Pair')
 plt.subplot(1,2,1)
 plt.xlabel('epoch length')
 plt.ylabel('average coherence value')
@@ -59,6 +59,7 @@ plt.xlabel('epoch length')
 plt.ylabel('average circular correlation value')
 plt.plot(epo_length,ccorr_values)
 plt.show()
+plt.savefig("length_plot_one.png",bbox_inches='tight',dpi=100)
 
 #%% Bar plot with average of all pairs
 
@@ -67,7 +68,7 @@ ccorr_values = np.array([np.mean(ccorr_alpha_cou_s), np.mean(ccorr_alpha_cou_3s)
 epo_length = np.array([1,3,25])
 
 plt.figure(figsize=(10, 3))
-plt.suptitle('Connectivity value variability for all pairs')
+plt.suptitle('Connectivity Value Variability for All Pairs')
 plt.subplot(1,2,1)
 plt.xlabel('epoch length')
 plt.ylabel('average coherence value')
@@ -79,3 +80,4 @@ plt.xlabel('epoch length')
 plt.ylabel('average circular correlation value')
 plt.plot(epo_length,ccorr_values)
 plt.show()
+plt.savefig("length_plot_all.png",bbox_inches='tight',dpi=100)

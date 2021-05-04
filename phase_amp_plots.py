@@ -23,8 +23,8 @@ from con_functions import *
 
 #%% Loading a pair from long
 
-epochs_a = mne.read_epochs('epochs_a_long_10_resting.fif')
-epochs_b = mne.read_epochs('epochs_b_long_10_resting.fif')
+epochs_a = mne.read_epochs('epochs_a_long_10.fif')
+epochs_b = mne.read_epochs('epochs_b_long_10.fif')
 
 
 #%% ccorr
@@ -55,15 +55,15 @@ result, angle, _, phase = analyses.compute_sync(complex_signal, mode='plv', epoc
 
 
 #%% Loading a pair from short
-epochs_a_s = mne.read_epochs('epochs_a_short_10_resting.fif')
-epochs_b_s = mne.read_epochs('epochs_b_short_10_resting.fif')
+epochs_a_s = mne.read_epochs('epochs_a_short_10.fif')
+epochs_b_s = mne.read_epochs('epochs_b_short_10.fif')
 
 #%% ccorr
-drop_list_10 = [342, 351, 352, 353, 534, 603, 624, 625, 626, 832, 988, 1014, 1131, 1144, 1196, 1222, 1228, 1456, 1612, 1613, 1614]
-theta, alpha, beta, angle_s, complex_signal_s = ccorr(epochs_a_s, epochs_b_s, 'pair0010', 'short', drop_list = drop_list_10)
+#drop_list_10 = [342, 351, 352, 353, 534, 603, 624, 625, 626, 832, 988, 1014, 1131, 1144, 1196, 1222, 1228, 1456, 1612, 1613, 1614]
+theta, alpha, beta, angle_s, complex_signal_s = ccorr(epochs_a_s, epochs_b_s, 'pair0010', 'short', drop_list = [])
 
 #%% coh
-theta, alpha, beta, amp_s, complex_signal_s_coh = coh(epochs_a_s, epochs_b_s, 'pair0010', 'short', drop_list = drop_list_10)
+theta, alpha, beta, amp_s, complex_signal, epo_a_cleaned, epo_a = coh(epochs_a_s, epochs_b_s, 'pair0010', 'short', drop_list = [])
 
 #%% Extracting angle from participant a and b respectively
 
@@ -127,21 +127,22 @@ plt.plot(t, angle_a_s, t, angle_b_s)
 
 #%% Plot for methods section
 
+plt.figure(figsize = (8,5))
 t = np.arange(0,1,1/256)
 plt.subplot(3,1,1)
 plt.title('Alpha signal')
-plt.plot(t, np.real(signal_a))
-plt.plot(t, np.real(signal_b))
+plt.plot(t, complex_signal[0][0][12][1][0:256])
+plt.plot(t, complex_signal[1][0][12][1][0:256])
 plt.xlabel('time (s)')
 plt.subplot(3,1,2)
 plt.title('Amplitude')
-plt.plot(t, amp_a, label = 'Participant a')
-plt.plot(t,amp_b, label = 'Participant b')
+plt.plot(t, abs(complex_signal)[0][0][12][1][0:256], label = 'Participant a')
+plt.plot(t, abs(complex_signal)[1][0][12][1][0:256], label = 'Participant b')
 plt.xlabel('time (s)')
 plt.legend(loc='upper right')
 plt.subplot(3,1,3)
 plt.title('Phase')
-plt.plot(t, angle_a, t, angle_b)
+plt.plot(t, np.angle(complex_signal)[0][0][12][1][0:256], t, np.angle(complex_signal)[1][0][12][1][0:256])
 plt.xlabel('time (s)')
 plt.tight_layout()
 plt.show()
@@ -155,7 +156,7 @@ plt.subplot(3,1,1)
 #plt.figure(figsize = (10,5))
 plt.plot(t, complex_signal[0][0][12][1][0:256])
 plt.subplot(3,1,2)
-plt.plot(t, (abs(complex_signal)**2)[0][0][12][1][0:256])
+plt.plot(t, (abs(complex_signal))[0][0][12][1][0:256])
 plt.subplot(3,1,3)
 plt.plot(t, np.angle(complex_signal)[0][0][12][1][0:256])
 
