@@ -152,7 +152,7 @@ load_avg_matrix('ccorr','theta', 'Leader-Follower', 'long', save = 1)
 #coh
 plt.close('all')
 load_avg_matrix('coh','alpha', 'Coupled', 'long', save = 1)
-load_avg_matrix('coh','beta', 'Coupled', 'long', save = 1)
+load_avg_matrix('coh','beta', 'Coupled', 'long', save = 0, sep = 1)
 load_avg_matrix('coh','theta', 'Coupled', 'long', save = 1)
 load_avg_matrix('coh','alpha', 'Uncoupled', 'long', save = 1)
 load_avg_matrix('coh','beta', 'Uncoupled', 'long', save = 1)
